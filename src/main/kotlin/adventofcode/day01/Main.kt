@@ -2,6 +2,8 @@ package adventofcode.day01
 
 import java.io.*
 
+typealias ElfCaloryGroups = List<List<Int>>
+
 fun main() {
     val input1 = File("requirements/day01/input.txt")
         .useLines { it.toList() }
@@ -13,17 +15,13 @@ fun main() {
     println("Part 2 Top 3 Elf Calories: $top3ElfCalories")
 }
 
-fun part1(input: List<String>): Int? {
-    return maxOf(caloriesGroupedByElf(input))
-}
+fun part1(input: List<String>): Int = maxOf(caloriesGroupedByElf(input))
 
-fun part2(input: List<String>): Int {
-    val caloryGroups = caloriesGroupedByElf(input)
-    return caloryGroups.map { group -> group.sum() }
+fun part2(input: List<String>): Int =
+    caloriesGroupedByElf(input).map { group -> group.sum() }
         .sortedDescending()
         .take(3)
         .sum()
-}
 
 fun caloriesGroupedByElf(input: List<String>): ElfCaloryGroups {
     val allCaloryGroups = mutableListOf<List<Int>>()
@@ -42,8 +40,4 @@ fun caloriesGroupedByElf(input: List<String>): ElfCaloryGroups {
     return allCaloryGroups
 }
 
-typealias ElfCaloryGroups = List<List<Int>>
-
-fun maxOf(caloryGroups: ElfCaloryGroups): Int? {
-    return caloryGroups.maxOfOrNull { it.sum() }
-}
+fun maxOf(caloryGroups: ElfCaloryGroups): Int = caloryGroups.maxOf { it.sum() }
