@@ -52,7 +52,9 @@ fun main() {
 
 private fun part1(input1: List<List<String>>): Int = input1
     .map { round -> round.map { column -> shapes[column] } }
-    .sumOf { round -> round[PLAYER_2]!!.play(round[PLAYER_1]!!) }
+    .sumOf { round ->
+        Game(round[PLAYER_1]!!, round[PLAYER_2]!!).player2Score()
+    }
 
 private fun part2(input2: List<List<String>>): Int = input2
     .map { round ->
@@ -62,7 +64,9 @@ private fun part2(input2: List<List<String>>): Int = input2
                 oponent = shapes[round.first()]!!,
                 expectedGameResultForPlayer2 = round[1]))
     }
-    .sumOf { round -> round[PLAYER_2]!!.play(round[PLAYER_1]!!) }
+    .sumOf { round ->
+        Game(round[PLAYER_1]!!, round[PLAYER_2]!!).player2Score()
+    }
 
 fun shapeFor(oponent: Shape, expectedGameResultForPlayer2: String): Shape =
     shapes[oponent.player2[expectedGameResultForPlayer2]]!!
