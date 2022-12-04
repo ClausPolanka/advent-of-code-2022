@@ -23,7 +23,9 @@ private fun part1(
     scoreMap: MutableMap<Char, Int>): Int =
     rucksacks.map { rucksack -> rucksack.chunked(rucksack.length / 2) }
         .map { compartments -> compartments.map { c -> c.toList() } }
-        .flatMap { compartment -> compartment[0].intersect(compartment[1]) }
+        .flatMap { compartment ->
+            compartment[0].intersect(compartment[1].toSet())
+        }
         .map { item -> scoreMap[item] }
         .sumOf { score -> score!! }
 
@@ -35,7 +37,9 @@ private fun part2(
             rucksackGroup.map { rucksack -> rucksack.toList() }
         }
         .flatMap { rucksack ->
-            rucksack[0].intersect(rucksack[1]).intersect(rucksack[2])
+            rucksack[0]
+                .intersect(rucksack[1].toSet())
+                .intersect(rucksack[2].toSet())
         }
         .map { item -> scoreMap[item] }
         .sumOf { score -> score!! }
