@@ -1,4 +1,6 @@
-import org.junit.jupiter.api.Test
+package tests.adventofcode.day01
+
+import org.junit.jupiter.api.*
 
 class Tests {
     @Test
