@@ -25,8 +25,30 @@ class Tests {
 
             10000
         """.trimIndent().split(lineSeparator())
-        val max = maxOf(input)
+        val max = part1(input)
         assertEquals(24000, max)
+    }
+
+    @Test
+    fun calculateTop3Max() {
+        val input = """
+            1000
+            2000
+            3000
+
+            4000
+
+            5000
+            6000
+
+            7000
+            8000
+            9000
+
+            10000
+        """.trimIndent().split(lineSeparator())
+        val max = part2(input)
+        assertEquals(45000, max)
     }
 
 }
