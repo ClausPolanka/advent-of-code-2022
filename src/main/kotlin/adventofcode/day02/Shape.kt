@@ -11,11 +11,12 @@ private val beats = mutableMapOf(
 
 data class Shape(
     private val name: String,
-    private val score: Int) {
+    private val score: Int,
+    val player2: Map<String, String>) {
 
-    fun play(shape: Shape): Int = when {
-        name == shape.name -> score + DRAW
-        beats[name] == shape.name -> score + WON
+    fun play(other: Shape): Int = when {
+        name == other.name -> score + DRAW
+        beats[name] == other.name -> score + WON
         else -> score + LOST
     }
 
