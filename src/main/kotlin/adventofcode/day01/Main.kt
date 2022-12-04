@@ -5,41 +5,45 @@ import java.io.*
 fun main() {
     val input1 = File("requirements/day01/input.txt")
         .useLines { it.toList() }
-    val max = part1(input1)
-    println("Result for Part 1: $max")
+    val maxElfCalories = part1(input1)
+    println("Part 1 Max Elf Calories: $maxElfCalories")
     val input2 = File("requirements/day01/input_part2.txt")
         .useLines { it.toList() }
-    val sumOfTop3 = part2(input2)
-    println("Result for Part 2: $sumOfTop3")
+    val top3ElfCalories = part2(input2)
+    println("Part 2 Top 3 Elf Calories: $top3ElfCalories")
 }
 
 fun part1(input: List<String>): Int? {
-    val grouped = grouped(input)
-    return maxOf(grouped)
+    return maxOf(caloriesGroupedByElf(input))
 }
 
 fun part2(input: List<String>): Int {
-    val grouped = grouped(input)
-    return grouped.map { it.sum() }.sortedDescending().take(3).sum()
+    val caloryGroups = caloriesGroupedByElf(input)
+    return caloryGroups.map { group -> group.sum() }
+        .sortedDescending()
+        .take(3)
+        .sum()
 }
 
-fun grouped(input: List<String>): MutableList<List<Int>> {
-    val all = mutableListOf<List<Int>>()
-    var group = mutableListOf<Int>()
-    input.forEach {
-        if (it.isNotEmpty()) {
-            group.add(it.toInt())
+fun caloriesGroupedByElf(input: List<String>): ElfCaloryGroups {
+    val allCaloryGroups = mutableListOf<List<Int>>()
+    var elf = mutableListOf<Int>()
+    input.forEach { calories ->
+        if (calories.isNotEmpty()) {
+            elf.add(calories.toInt())
         } else {
-            all.add(group)
-            group = mutableListOf()
+            allCaloryGroups.add(elf)
+            elf = mutableListOf()
         }
-        if (it == input.last() && it.isNotBlank()) {
-            all.add(group)
+        if (calories == input.last() && calories.isNotBlank()) {
+            allCaloryGroups.add(elf)
         }
     }
-    return all
+    return allCaloryGroups
 }
 
-fun maxOf(grouped: List<List<Int>>): Int? {
-    return grouped.maxOfOrNull { it.sum() }
+typealias ElfCaloryGroups = List<List<Int>>
+
+fun maxOf(caloryGroups: ElfCaloryGroups): Int? {
+    return caloryGroups.maxOfOrNull { it.sum() }
 }
