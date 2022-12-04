@@ -11,26 +11,30 @@ private const val LOSES_WITH = "X"
 private const val DRAWS_WITH = "Y"
 private const val WINS_WITH = "Z"
 
-private val rock = Shape(name = "Rock", score = 1, player2 = mapOf(
-    LOSES_WITH to SCISSORS,
-    DRAWS_WITH to ROCK,
-    WINS_WITH to PAPER
-))
-private val paper = Shape(name = "Paper", score = 2, player2 = mapOf(
-    LOSES_WITH to ROCK,
-    DRAWS_WITH to PAPER,
-    WINS_WITH to SCISSORS
-))
-private val scissors = Shape(name = "Scissors", score = 3, player2 = mapOf(
-    LOSES_WITH to PAPER,
-    DRAWS_WITH to SCISSORS,
-    WINS_WITH to ROCK
-))
+private val rock = Shape(name = "Rock", beats = "Scissors", score = 1,
+    player2 = mapOf(
+        LOSES_WITH to SCISSORS,
+        DRAWS_WITH to ROCK,
+        WINS_WITH to PAPER
+    ))
+private val paper = Shape(name = "Paper", beats = "Rock", score = 2,
+    player2 = mapOf(
+        LOSES_WITH to ROCK,
+        DRAWS_WITH to PAPER,
+        WINS_WITH to SCISSORS
+    ))
+private val scissors = Shape(name = "Scissors", beats = "Paper", score = 3,
+    player2 = mapOf(
+        LOSES_WITH to PAPER,
+        DRAWS_WITH to SCISSORS,
+        WINS_WITH to ROCK
+    ))
 
 private val shapes = mutableMapOf(
     ROCK to rock,
     PAPER to paper,
     SCISSORS to scissors,
+    // Part 1 specific
     "X" to rock,
     "Y" to paper,
     "Z" to scissors)
