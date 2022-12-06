@@ -45,8 +45,7 @@ private fun part1(input: List<String>): String {
             stacks[m.to].add(stacks[m.from].removeLast())
         }
     }
-    val result = stacks.joinToString(separator = "") { it.last() }
-    return result
+    return stacks.joinToString(separator = "") { it.last() }
 }
 
 private fun stackRows(nrOfStacks: Int, stackLines: List<List<String>>) =
