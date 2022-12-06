@@ -5,41 +5,15 @@ import java.io.*
 fun main() {
     val input = File("requirements/day05/input.txt").readText()
         .split("${System.lineSeparator()}${System.lineSeparator()}")
-    val result = part2(input)
-    println(result)
+    val result1 = part1(input)
+    println("Part 1 crates on top of each stack: $result1")
+    val result2 = part2(input)
+    println("Part 2 crates on top of each stack: $result2")
 }
 
 private fun part1(input: List<String>): String {
-    val stacksOfCrates = input[0]
-
-    val nrOfStacks = stacksOfCrates.lines()
-        .last()
-        .split(" ")
-        .filter { it.isNotBlank() }
-        .map { it.toInt() }
-        .size
-
-    val stackLines = stacksOfCrates.lines()
-        .dropLast(1)
-        .map { Pair(it, indicesFor(it.length - 1)) }
-        .map { pair ->
-            pair.second.map { idx ->
-                val vcont = pair.first[idx].toString()
-                vcont.ifBlank { "" }
-            }
-        }
-        .reversed()
-
-    val stacks = stackRows(nrOfStacks, stackLines)
-    val moves = input[1].lines()
-        .map { it.split(" ") }
-        .filter { it.size == 6 }
-        .map {
-            Move(
-                quantity = it[1].toInt(),
-                from = it[3].toInt() - 1,
-                to = it[5].toInt() - 1)
-        }
+    val stacks = createStacksFor(input)
+    val moves = createMovesFor(input)
     moves.forEach { m ->
         repeat(m.quantity) {
             stacks[m.to].add(stacks[m.from].removeLast())
@@ -49,6 +23,19 @@ private fun part1(input: List<String>): String {
 }
 
 private fun part2(input: List<String>): String {
+    val stacks = createStacksFor(input)
+    val moves = createMovesFor(input)
+    moves.forEach { m ->
+        val toMove = stacks[m.from].takeLast(m.quantity)
+        repeat(m.quantity) { stacks[m.from].removeLast() }
+        stacks[m.to].addAll(toMove)
+    }
+    return stacks
+        .filter { it.isNotEmpty() }
+        .joinToString(separator = "") { it.last() }
+}
+
+private fun createStacksFor(input: List<String>): List<MutableList<String>> {
     val stacksOfCrates = input[0]
 
     val nrOfStacks = stacksOfCrates.lines()
@@ -69,39 +56,20 @@ private fun part2(input: List<String>): String {
         }
         .reversed()
 
-    val stacks = stackRows(nrOfStacks, stackLines)
-    val moves = input[1].lines()
-        .map { it.split(" ") }
-        .filter { it.size == 6 }
-        .map {
-            Move(
-                quantity = it[1].toInt(),
-                from = it[3].toInt() - 1,
-                to = it[5].toInt() - 1)
-        }
-    moves.forEach { m ->
-        val toMove = stacks[m.from].takeLast(m.quantity)
-        repeat(m.quantity) {
-            stacks[m.from].removeLast()
-        }
-        stacks[m.to].addAll(toMove)
-    }
-
-    return stacks
-        .filter { it.isNotEmpty() }
-        .joinToString(separator = "") { it.last() }
+    return stackRows(nrOfStacks, stackLines)
 }
 
 private fun stackRows(nrOfStacks: Int, stackLines: List<List<String>>) =
-    IntRange(0, nrOfStacks - 1).map { idx ->
-        stackLines.map {
-            if (idx < it.size) {
-                it[idx]
-            } else {
-                ""
+    IntRange(0, nrOfStacks - 1)
+        .map { idx ->
+            stackLines.map {
+                when {
+                    idx < it.size -> it[idx]
+                    else -> ""
+                }
             }
         }
-    }.map { it.filter { it.isNotEmpty() } }
+        .map { it.filter { it.isNotEmpty() } }
         .map { it.toMutableList() }
 
 private fun indicesFor(lineLength: Int): List<Int> {
@@ -111,3 +79,13 @@ private fun indicesFor(lineLength: Int): List<Int> {
     }
     return indices
 }
+
+private fun createMovesFor(input: List<String>): List<Move> = input[1].lines()
+    .map { it.split(" ") }
+    .filter { it.size == 6 }
+    .map {
+        Move(
+            quantity = it[1].toInt(),
+            from = it[3].toInt() - 1,
+            to = it[5].toInt() - 1)
+    }
