@@ -3,42 +3,63 @@ package adventofcode.day05
 import java.io.*
 
 fun main() {
-    val input = File("requirements/day05/sample.txt").readText()
+    val input = File("requirements/day05/input.txt").readText()
         .split("${System.lineSeparator()}${System.lineSeparator()}")
+    val result = part1(input)
+    println(result)
+}
+
+private fun part1(input: List<String>): String {
     val stacksOfCrates = input[0]
-    val moves = input[1]
-    println(stacksOfCrates)
-    println(moves)
 
-    val nrOfStacks =
-        stacksOfCrates.lines().last().split(" ").filter { it.isNotBlank() }
-            .map { it.toInt() }.size
+    val nrOfStacks = stacksOfCrates.lines()
+        .last()
+        .split(" ")
+        .filter { it.isNotBlank() }
+        .map { it.toInt() }
+        .size
 
-    val stackLines = stacksOfCrates.lines().dropLast(1)
+    val stackLines = stacksOfCrates.lines()
+        .dropLast(1)
         .map { Pair(it, indicesFor(it.length - 1)) }
         .map { pair ->
             pair.second.map { idx ->
-                mutableListOf(pair.first[idx].toString())
+                val vcont = pair.first[idx].toString()
+                vcont.ifBlank { "" }
             }
         }
         .reversed()
 
-//    println(stackLines)
-
     val stacks = stackRows(nrOfStacks, stackLines)
-    println(stacks)
+    val moves = input[1].lines()
+        .map { it.split(" ") }
+        .filter { it.size == 6 }
+        .map {
+            Move(
+                quantity = it[1].toInt(),
+                from = it[3].toInt() - 1,
+                to = it[5].toInt() - 1)
+        }
+    moves.forEach { m ->
+        repeat(m.quantity) {
+            stacks[m.to].add(stacks[m.from].removeLast())
+        }
+    }
+    val result = stacks.joinToString(separator = "") { it.last() }
+    return result
 }
 
-private fun stackRows(nrOfStacks: Int, stackLines: List<List<MutableList<String>>>) =
+private fun stackRows(nrOfStacks: Int, stackLines: List<List<String>>) =
     IntRange(0, nrOfStacks - 1).map { idx ->
         stackLines.map {
             if (idx < it.size) {
                 it[idx]
             } else {
-                emptyList()
+                ""
             }
         }
-    }
+    }.map { it.filter { it.isNotEmpty() } }
+        .map { it.toMutableList() }
 
 private fun indicesFor(lineLength: Int): List<Int> {
     val indices = mutableListOf<Int>()
