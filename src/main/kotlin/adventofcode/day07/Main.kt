@@ -7,21 +7,25 @@ fun main() {
         .split(System.lineSeparator() + "$ cd")
         .map { it.split(System.lineSeparator()) }
 
-    val dirsList = dirs.map { dir ->
+    val directories = dirs.map { dir ->
         Directory(dir[0].trim(), dir)
     }
 
-    dirsList.forEach { d ->
+    directories.forEach { d ->
         d.dirsNames.forEach { subDir ->
-            d.dirs.addAll(dirsList.filter { it.name == subDir })
+            d.dirs.addAll(directories.filter { it.name == subDir })
         }
     }
 
     println(
-        dirsList.filter { d ->
+        directories.filter { d ->
             d.filesSizeSum + d.dirs.sumOf { it.filesSizeSum } <= 100000
         }.sumOf { d -> d.filesSizeSum + d.dirs.sumOf { it.filesSizeSum } }
     )
+
+    directories.forEach {
+        println(it)
+    }
 }
 
 data class Directory(val name: String, val dir: List<String>) {
@@ -44,12 +48,12 @@ data class Directory(val name: String, val dir: List<String>) {
 
     override fun toString(): String {
         return "Directory(" +
-                "name='$name', ${System.lineSeparator()} " +
-                "dirsNames=$dirsNames, ${System.lineSeparator()} " +
-                "files=$files, ${System.lineSeparator()} " +
-                "filesSizeSum=$filesSizeSum, ${System.lineSeparator()}" +
-                "dirsFileSizeSum=$dirsFileSizeSum, ${System.lineSeparator()}" +
-                "dirs=${dirs}${System.lineSeparator()}" +
+                "name='$name', " +
+                "files=$files, " +
+                "filesSizeSum=$filesSizeSum, " +
+                "dirsFileSizeSum=$dirsFileSizeSum, " +
+                "dirsNames=$dirsNames, " +
+                "dirs=$dirs" +
                 ")"
     }
 
