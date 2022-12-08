@@ -6,9 +6,36 @@ fun main() {
     val dirs = File("requirements/day07/sample.txt").readText()
         .split(System.lineSeparator() + "$ cd")
         .map { it.split(System.lineSeparator()) }
+        .map {
+            it.map {
+                if (it.startsWith(" ")) {
+                    it.replace(" ", "$ cd ")
+                } else it
+            }
+        }
+    var i = 0
+    val directories = dirs.map {
+        if (it[0].endsWith("/")) {
+            i = 0
+        } else if (it[0].startsWith("$ cd ..")) {
+            i--
+        } else if (it[0].startsWith("$ cd")) {
+            i++
+        }
+        Directory(it[0], it, if (i == 0) emptyList() else dirs[i - 1])
+    }
+    directories.filterNot { it.name.contains("..") }.forEach {
+        println(it)
+    }
+}
+
+fun main_sample() {
+    val dirs = File("requirements/day07/sample.txt").readText()
+        .split(System.lineSeparator() + "$ cd")
+        .map { it.split(System.lineSeparator()) }
 
     val directories = dirs.map { dir ->
-        Directory(dir[0].trim(), dir)
+        Directory(dir[0].trim(), dir, emptyList())
     }
 
     directories.forEach { d ->
@@ -28,7 +55,7 @@ fun main() {
     }
 }
 
-data class Directory(val name: String, val dir: List<String>) {
+data class Directory(val name: String, val dir: List<String>, val parentDir: List<String>) {
 
     val dirsNames = dir
         .filter { it.startsWith("dir") }
@@ -53,7 +80,8 @@ data class Directory(val name: String, val dir: List<String>) {
                 "filesSizeSum=$filesSizeSum, " +
                 "dirsFileSizeSum=$dirsFileSizeSum, " +
                 "dirsNames=$dirsNames, " +
-                "dirs=$dirs" +
+                "dirs=$dirs, " +
+                "parentDirs=$parentDir" +
                 ")"
     }
 
