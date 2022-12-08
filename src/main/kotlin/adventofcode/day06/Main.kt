@@ -1,5 +1,16 @@
 package adventofcode.day06
 
+import java.io.*
+
 fun main() {
-    println("Hello World")
+    val input = File("requirements/day06/input.txt").readText()
+
+    IntRange(0, input.toList().size).forEach { i ->
+        val elems = input.drop(i).toList().take(4)
+        if (elems.size == elems.distinct().size) {
+            println(i + 4)
+            return
+        }
+    }
+
 }
