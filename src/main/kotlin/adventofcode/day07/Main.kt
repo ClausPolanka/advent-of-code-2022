@@ -7,11 +7,9 @@ fun main() {
         .split(System.lineSeparator() + "$ cd")
         .map { it.split(System.lineSeparator()) }
 
-    val dirsList = mutableListOf<Directory>()
-    dirsList.add(Directory("root", dirs[0]))
-    dirsList.add(Directory(dirs[1][0].trim(), dirs[1]))
-    dirsList.add(Directory(dirs[2][0].trim(), dirs[2]))
-    dirsList.add(Directory(dirs[5][0].trim(), dirs[5]))
+    val dirsList = dirs.map { dir ->
+        Directory(dir[0].trim(), dir)
+    }
 
     dirsList.forEach { d ->
         d.dirsNames.forEach { subDir ->
