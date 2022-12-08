@@ -6,9 +6,9 @@ fun main() {
     val input = File("requirements/day06/input.txt").readText()
 
     IntRange(0, input.toList().size).forEach { i ->
-        val elems = input.drop(i).toList().take(4)
+        val elems = input.drop(i).toList().take(14)
         if (elems.size == elems.distinct().size) {
-            println(i + 4)
+            println(i + 14)
             return
         }
     }
