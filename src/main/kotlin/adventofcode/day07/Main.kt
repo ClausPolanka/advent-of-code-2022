@@ -13,18 +13,7 @@ fun main() {
                 } else it
             }
         }
-    var i = 0
-    val directories = dirs.map {
-        if (it[0].endsWith("/")) {
-            i = 0
-        } else if (it[0].startsWith("$ cd ..")) {
-            i--
-        } else if (it[0].startsWith("$ cd")) {
-            i++
-        }
-        Directory(it[0], it, if (i == 0) emptyList() else dirs[i - 1])
-    }
-    directories.filterNot { it.name.contains("..") }.forEach {
+    dirs.forEach {
         println(it)
     }
 }
