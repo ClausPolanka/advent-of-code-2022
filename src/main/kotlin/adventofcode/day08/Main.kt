@@ -11,39 +11,29 @@ fun main() {
         33549
         35390""".trimIndent()
     val lines = sampleInput.split(System.lineSeparator())
-
     val inputLines =
         File("requirements/day08/input.txt").useLines { it.toList() }
-
     val sampleResult = part1(lines)
     val inputResult = part1(inputLines)
-
     // sample => 21, input => 1695
     println("Part 1 Visible trees: '" + sampleResult.distinct().size + "'")
     println("Part 1 Visible trees: '" + inputResult.distinct().size + "'")
 }
 
-private fun part1(inputLines: List<String>): MutableList<String> {
+private fun part1(inputLines: List<String>): List<String> {
     val trees = inputLines
         .filter { it.isNotEmpty() }
         .map { it.toList().map { tree -> tree.digitToInt() } }
 
-    val result = mutableListOf<String>()
-
-    trees.forEachIndexed { rowIndex, _ ->
-        val reightNeighbours = rightNeighbours(trees[rowIndex], rowIndex)
-        result.addAll(reightNeighbours)
-        val leftNeighbours = leftNeighbours(trees[rowIndex], rowIndex)
-        result.addAll(leftNeighbours)
+    val treesVisibleInRows = trees.flatMapIndexed { rowIndex, _ ->
+        rightNeighbours(trees[rowIndex], rowIndex) +
+                leftNeighbours(trees[rowIndex], rowIndex)
     }
-
-    trees[0].forEachIndexed { colIndex, _ ->
-        val topNeighbours = topNeighbours(trees, colIndex)
-        result.addAll(topNeighbours)
-        val bottomNeighbours = bottomNeighbours(trees, colIndex)
-        result.addAll(bottomNeighbours)
+    val treesVisibleInColumns = trees[0].flatMapIndexed { colIndex, _ ->
+        topNeighbours(trees, colIndex) +
+                bottomNeighbours(trees, colIndex)
     }
-    return result
+    return treesVisibleInRows + treesVisibleInColumns
 }
 
 private fun rightNeighbours(
