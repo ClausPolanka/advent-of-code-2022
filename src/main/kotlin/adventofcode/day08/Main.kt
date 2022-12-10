@@ -26,7 +26,7 @@ fun main() {
 private fun part1(inputLines: List<String>): MutableList<String> {
     val trees = inputLines
         .filter { it.isNotEmpty() }
-        .map { it.toList().map { it.digitToInt() } }
+        .map { it.toList().map { tree -> tree.digitToInt() } }
 
     val result = mutableListOf<String>()
 
@@ -46,34 +46,46 @@ private fun part1(inputLines: List<String>): MutableList<String> {
     return result
 }
 
-private fun rightNeighbours(trees: List<Int>, index: Int, isRow: Boolean = true): List<String> {
-    return trees.mapIndexed { i, tree ->
-        val neighbours = trees.subList(i + 1, trees.size)
+private fun rightNeighbours(
+    trees: List<Int>,
+    index: Int,
+    isRow: Boolean = true): List<String> {
+    return trees.mapIndexed { treeIndex, tree ->
+        val neighbours = trees.subList(treeIndex + 1, trees.size)
         val isHighest =
             if (neighbours.isEmpty()) true else tree > neighbours.max()
         if (isHighest) {
-            if (isRow) "$index,$i" else "$i,$index"
+            if (isRow) "$index,$treeIndex" else "$treeIndex,$index"
         } else ""
     }.filter { it.isNotEmpty() }
 }
 
-private fun leftNeighbours(trees: List<Int>, index: Int, isRow: Boolean = true): List<String> {
-    return trees.mapIndexed { i, tree ->
-        if (i == 0) {
+private fun leftNeighbours(
+    trees: List<Int>,
+    index: Int,
+    isRow: Boolean = true): List<String> {
+    return trees.mapIndexed { treeIndex, tree ->
+        if (treeIndex == 0) {
             if (isRow) "$index,0" else "0,$index"
         } else {
-            val neighbours = trees.subList(0, i)
+            val neighbours = trees.subList(0, treeIndex)
             val isHighest =
                 if (neighbours.isEmpty()) true else tree > neighbours.max()
             if (isHighest) {
-                if (isRow) "$index,$i" else "$i,$index"
+                if (isRow) "$index,$treeIndex" else "$treeIndex,$index"
             } else ""
         }
     }.filter { it.isNotEmpty() }
 }
 
 private fun topNeighbours(trees: List<List<Int>>, colIndex: Int) =
-    rightNeighbours(trees.map { rows -> rows[colIndex] }, colIndex, isRow = false)
+    rightNeighbours(
+        trees.map { rows -> rows[colIndex] },
+        colIndex,
+        isRow = false)
 
 private fun bottomNeighbours(trees: List<List<Int>>, colIndex: Int) =
-    leftNeighbours(trees.map { rows -> rows[colIndex] }, colIndex, isRow = false)
+    leftNeighbours(
+        trees.map { rows -> rows[colIndex] },
+        colIndex,
+        isRow = false)
