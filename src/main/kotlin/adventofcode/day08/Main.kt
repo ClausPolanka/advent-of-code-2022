@@ -31,7 +31,7 @@ private fun part1(inputLines: List<String>): MutableList<String> {
     val result = mutableListOf<String>()
 
     trees.forEachIndexed { rowIndex, _ ->
-        val reightNeighbours = rightNeighbours(trees[rowIndex], rowIndex, true)
+        val reightNeighbours = rightNeighbours(trees[rowIndex], rowIndex)
         result.addAll(reightNeighbours)
         val leftNeighbours = leftNeighbours(trees[rowIndex], rowIndex)
         result.addAll(leftNeighbours)
@@ -46,7 +46,7 @@ private fun part1(inputLines: List<String>): MutableList<String> {
     return result
 }
 
-private fun rightNeighbours(trees: List<Int>, index: Int, isRow: Boolean): List<String> {
+private fun rightNeighbours(trees: List<Int>, index: Int, isRow: Boolean = true): List<String> {
     return trees.mapIndexed { i, tree ->
         val neighbours = trees.subList(i + 1, trees.size)
         val isHighest =
