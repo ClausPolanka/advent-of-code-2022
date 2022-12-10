@@ -32,7 +32,6 @@ fun main() {
     println("Part 1: Sum of directories with size <= 100.000: "
             + dirToSize.values.filter { it <= 100_000 }.sum())
 
-    // 8_381_165
     println("Part 2: Total size of directory which would free up enough space: "
             + dirToSize.filter { (_, size) ->
         size >= (30_000_000 - (70_000_000 - dirToSize[""]!!))
