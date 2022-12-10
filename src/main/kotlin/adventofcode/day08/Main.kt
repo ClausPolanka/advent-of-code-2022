@@ -1,5 +1,7 @@
 package adventofcode.day08
 
+import java.io.*
+
 fun main() {
     val sampleInput =
         """
@@ -8,54 +10,98 @@ fun main() {
         65332
         33549
         35390""".trimIndent()
-
     val lines = sampleInput.split(System.lineSeparator())
-    val trees = lines.map { it.toList().map { it.digitToInt() } }
+
+    val inputLines =
+        File("requirements/day08/input.txt").useLines { it.toList() }
+
+    val trees = inputLines
+        .filter { it.isNotEmpty() }
+        .map { it.toList().map { it.digitToInt() } }
     trees.forEach {
         println(it)
     }
-    /**
-     * [3, 0, 3, 7, 3]
-     * [2, 5, 5, 1, 2]
-     * [6, 5, 3, 3, 2]
-     * [3, 3, 5, 4, 9]
-     * [3, 5, 3, 9, 0]
-     */
 
-    val rowLength = trees[0].size
-    val colLength = trees.size
-    val rowIndex = 1
-    val colIndex = 1
+    val result = mutableListOf<String>()
 
-    println()
-    println("right neighbours for row: $rowIndex")
-    rightNeighbours(trees[rowIndex])
+    trees.forEachIndexed { rowIndex, _ ->
+        val reightNeighbours = rightNeighbours(trees[rowIndex], rowIndex)
+        result.addAll(reightNeighbours)
+        val leftNeighbours = leftNeighbours(trees[rowIndex], rowIndex)
+        result.addAll(leftNeighbours)
+    }
 
-    println()
-    println("left neighbours for row: $rowIndex")
-    leftNeighbours(trees[rowIndex])
+    trees[0].forEachIndexed { colIndex, _ ->
+        val topNeighbours = topNeighbours(trees, colIndex)
+        result.addAll(topNeighbours)
+        val bottomNeighbours = bottomNeighbours(trees, colIndex)
+        result.addAll(bottomNeighbours)
+    }
 
-    println()
-    println("top neighbours for column: $colIndex")
-    rightNeighbours(trees.map { rows -> rows[colIndex] })
-
-    println()
-    println("bottom neighbours for column: $colIndex")
-    leftNeighbours(trees.map { rows -> rows[colIndex] })
-}
-
-private fun rightNeighbours(trees: List<Int>) {
-    trees.forEachIndexed { index, tree ->
-        println("tree: '$tree' => ${trees.subList(index + 1, trees.size)}")
+    println("Part 1 Visible trees: '" + result.distinct().size + "'")
+    result.distinct().sorted().forEach {
+        println("'" + it + "'")
     }
 }
 
-private fun leftNeighbours(trees: List<Int>) {
-    trees.forEachIndexed { index, tree ->
-        if (index == 0) {
-            println("tree: '$tree' => ${emptyList<Int>()}")
+private fun rightNeighbours(trees: List<Int>, rowIndex: Int): List<String> {
+    return trees.mapIndexed { columnIndex, tree ->
+        val neighbours = trees.subList(columnIndex + 1, trees.size)
+//        print("tree: '$tree' => $neighbours")
+        val isHighest =
+            if (neighbours.isEmpty()) true else tree > neighbours.max()
+//        println(" Is Highest tree? => $isHighest")
+        if (isHighest) "$rowIndex,$columnIndex" else ""
+    }.filter { it.isNotEmpty() }
+}
+
+private fun rightNeighboursCol(trees: List<Int>, colIndex: Int): List<String> {
+    return trees.mapIndexed { rowIndex, tree ->
+        val neighbours = trees.subList(rowIndex + 1, trees.size)
+//        print("tree: '$tree' => $neighbours")
+        val isHighest =
+            if (neighbours.isEmpty()) true else tree > neighbours.max()
+//        println(" Is Highest tree? => $isHighest")
+        if (isHighest) "$rowIndex,$colIndex" else ""
+    }.filter { it.isNotEmpty() }
+}
+
+private fun leftNeighbours(trees: List<Int>, rowIndex: Int): List<String> {
+    return trees.mapIndexed { columnIndex, tree ->
+        if (columnIndex == 0) {
+//            print("tree: '$tree' => ${emptyList<Int>()}")
+//            println(" Is Highest tree? => true")
+            "$rowIndex,0"
         } else {
-            println("tree: '$tree' => ${trees.subList(0, index)}")
+            val neighbours = trees.subList(0, columnIndex)
+//            print("tree: '$tree' => $neighbours")
+            val isHighest =
+                if (neighbours.isEmpty()) true else tree > neighbours.max()
+//            println(" Is Highest tree? => $isHighest")
+            if (isHighest) "$rowIndex,$columnIndex" else ""
         }
-    }
+    }.filter { it.isNotEmpty() }
 }
+
+private fun leftNeighboursCol(trees: List<Int>, colIndex: Int): List<String> {
+    return trees.mapIndexed { rowIndex, tree ->
+        if (rowIndex == 0) {
+//            print("tree: '$tree' => ${emptyList<Int>()}")
+//            println(" Is Highest tree? => true")
+            "0,$colIndex"
+        } else {
+            val neighbours = trees.subList(0, rowIndex)
+//            print("tree: '$tree' => $neighbours")
+            val isHighest =
+                if (neighbours.isEmpty()) true else tree > neighbours.max()
+//            println(" Is Highest tree? => $isHighest")
+            if (isHighest) "$rowIndex,$colIndex" else ""
+        }
+    }.filter { it.isNotEmpty() }
+}
+
+private fun topNeighbours(trees: List<List<Int>>, colIndex: Int) =
+    rightNeighboursCol(trees.map { rows -> rows[colIndex] }, colIndex)
+
+private fun bottomNeighbours(trees: List<List<Int>>, colIndex: Int) =
+    leftNeighboursCol(trees.map { rows -> rows[colIndex] }, colIndex)
