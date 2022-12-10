@@ -52,36 +52,22 @@ private fun rightNeighbours(trees: List<Int>, index: Int, isRow: Boolean): List<
         val isHighest =
             if (neighbours.isEmpty()) true else tree > neighbours.max()
         if (isHighest) {
-            if (isRow)
-                "$index,$i"
-            else
-                "$i,$index"
+            if (isRow) "$index,$i" else "$i,$index"
         } else ""
     }.filter { it.isNotEmpty() }
 }
 
-private fun leftNeighbours(trees: List<Int>, rowIndex: Int): List<String> {
-    return trees.mapIndexed { columnIndex, tree ->
-        if (columnIndex == 0) {
-            "$rowIndex,0"
+private fun leftNeighbours(trees: List<Int>, index: Int, isRow: Boolean = true): List<String> {
+    return trees.mapIndexed { i, tree ->
+        if (i == 0) {
+            if (isRow) "$index,0" else "0,$index"
         } else {
-            val neighbours = trees.subList(0, columnIndex)
+            val neighbours = trees.subList(0, i)
             val isHighest =
                 if (neighbours.isEmpty()) true else tree > neighbours.max()
-            if (isHighest) "$rowIndex,$columnIndex" else ""
-        }
-    }.filter { it.isNotEmpty() }
-}
-
-private fun leftNeighboursCol(trees: List<Int>, colIndex: Int): List<String> {
-    return trees.mapIndexed { rowIndex, tree ->
-        if (rowIndex == 0) {
-            "0,$colIndex"
-        } else {
-            val neighbours = trees.subList(0, rowIndex)
-            val isHighest =
-                if (neighbours.isEmpty()) true else tree > neighbours.max()
-            if (isHighest) "$rowIndex,$colIndex" else ""
+            if (isHighest) {
+                if (isRow) "$index,$i" else "$i,$index"
+            } else ""
         }
     }.filter { it.isNotEmpty() }
 }
@@ -90,4 +76,4 @@ private fun topNeighbours(trees: List<List<Int>>, colIndex: Int) =
     rightNeighbours(trees.map { rows -> rows[colIndex] }, colIndex, isRow = false)
 
 private fun bottomNeighbours(trees: List<List<Int>>, colIndex: Int) =
-    leftNeighboursCol(trees.map { rows -> rows[colIndex] }, colIndex)
+    leftNeighbours(trees.map { rows -> rows[colIndex] }, colIndex, isRow = false)
