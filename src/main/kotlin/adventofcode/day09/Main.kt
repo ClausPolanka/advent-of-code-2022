@@ -7,8 +7,11 @@ var head = Pair(0, 0)
 var tail = Pair(0, 0)
 
 fun main() {
-    val fileCommands =
+    val sampleFileCommands =
         File("requirements/day09/sample.txt").useLines { it.toList() }
+
+    val inputFileCommands =
+        File("requirements/day09/input.txt").useLines { it.toList() }
 
     val inMemoryCommands = """
         R 4
@@ -22,7 +25,7 @@ fun main() {
     """.trimIndent()
         .split(System.lineSeparator())
 
-    val commands = fileCommands
+    val commands = inputFileCommands
         .map { row -> row.split(" ") }
 
     commands.forEach { cmd ->
