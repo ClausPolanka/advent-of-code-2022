@@ -6,16 +6,6 @@ var head = Pair(0, 0)
 var tail = Pair(0, 0)
 
 fun main() {
-    val grid = """
-          01234
-        4 ..... 4
-        3 ..... 3
-        2 .T... 2
-        1 ..... 1
-        0 H.... 0
-        
-    """.trimIndent()
-
     val commands = """
         R 4
         U 4
