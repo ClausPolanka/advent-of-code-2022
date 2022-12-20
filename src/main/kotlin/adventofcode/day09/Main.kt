@@ -119,51 +119,35 @@ fun updateTail(tail: Pair<Int, Int>, head: Pair<Int, Int>): Pair<Int, Int> {
         return tail.moveDown()
     }
 
-    if (head isTwoRowsAwayFrom tail
-        && head isAbove tail
-        && head isRightOf tail) {
+    if (head isTwoRowsAwayFrom tail && head isAboveRightOf tail) {
         return tail.moveUpRight()
     }
 
-    if (head isTwoRowsAwayFrom tail
-        && head isBelow tail
-        && head isRightOf tail) {
+    if (head isTwoRowsAwayFrom tail && head isBelowRightOf tail) {
         return tail.moveDownRight()
     }
 
-    if (head isTwoRowsAwayFrom tail
-        && head isBelow tail
-        && head isLeftOf tail) {
+    if (head isTwoRowsAwayFrom tail && head isBelowLeftOf tail) {
         return tail.moveDownLeft()
     }
 
-    if (head isTwoRowsAwayFrom tail
-        && head isAbove tail
-        && head isLeftOf tail) {
+    if (head isTwoRowsAwayFrom tail && head isAboveLeftOf tail) {
         return tail.moveUpLeft()
     }
 
-    if (head isTwoColumnsAwayFrom tail
-        && head isRightOf tail
-        && head isAbove tail) {
+    if (head isTwoColumnsAwayFrom tail && head isAboveRightOf tail) {
         return tail.moveUpRight()
     }
 
-    if (head isTwoColumnsAwayFrom tail
-        && head isLeftOf tail
-        && head isAbove tail) {
+    if (head isTwoColumnsAwayFrom tail && head isAboveLeftOf tail) {
         return tail.moveUpLeft()
     }
 
-    if (head isTwoColumnsAwayFrom tail
-        && head isLeftOf tail
-        && head isBelow tail) {
+    if (head isTwoColumnsAwayFrom tail && head isBelowLeftOf tail) {
         return tail.moveDownLeft()
     }
 
-    if (head isTwoColumnsAwayFrom tail
-        && head isRightOf tail
-        && head isBelow tail) {
+    if (head isTwoColumnsAwayFrom tail && head isBelowRightOf tail) {
         return tail.moveDownRight()
     }
 
@@ -190,6 +174,18 @@ private infix fun Pair<Int, Int>.isBelow(tail: Pair<Int, Int>) =
 
 private infix fun Pair<Int, Int>.isAbove(tail: Pair<Int, Int>) =
     first > tail.first
+
+private infix fun Pair<Int, Int>.isAboveRightOf(tail: Pair<Int, Int>) =
+    this isAbove tail && this isRightOf tail
+
+private infix fun Pair<Int, Int>.isAboveLeftOf(tail: Pair<Int, Int>) =
+    this isAbove tail && this isLeftOf tail
+
+private infix fun Pair<Int, Int>.isBelowLeftOf(tail: Pair<Int, Int>) =
+    this isBelow tail && this isLeftOf tail
+
+private infix fun Pair<Int, Int>.isBelowRightOf(tail: Pair<Int, Int>) =
+    this isBelow tail && this isRightOf tail
 
 private infix fun Pair<Int, Int>.isLeftOf(tail: Pair<Int, Int>) =
     second < tail.second
