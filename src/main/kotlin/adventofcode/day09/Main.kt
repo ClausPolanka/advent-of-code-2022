@@ -1,12 +1,16 @@
 package adventofcode.day09
 
+import java.io.*
 import kotlin.math.*
 
 var head = Pair(0, 0)
 var tail = Pair(0, 0)
 
 fun main() {
-    val commands = """
+    val fileCommands =
+        File("requirements/day09/sample.txt").useLines { it.toList() }
+
+    val inMemoryCommands = """
         R 4
         U 4
         L 3
@@ -17,6 +21,8 @@ fun main() {
         R 2
     """.trimIndent()
         .split(System.lineSeparator())
+
+    val commands = fileCommands
         .map { row -> row.split(" ") }
 
     commands.forEach { cmd ->
