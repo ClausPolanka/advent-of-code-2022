@@ -47,12 +47,9 @@ private fun moveRight(moves: Int): Pair<Pair<Int, Int>, Pair<Int, Int>> {
     println("Move R")
     repeat(moves) {
         print("H: $head")
-        head = Pair(head.first, head.second + 1)
+        head = head.moveRight()
         println(" => $head")
-        print("T: $tail")
-        tail = updateTail(tail, head)
-        visited.add(tail)
-        println(" => $tail")
+        updateTailWithDebugging()
     }
     return Pair(head, tail)
 }
@@ -61,12 +58,9 @@ private fun moveLeft(moves: Int): Pair<Pair<Int, Int>, Pair<Int, Int>> {
     println("Move L")
     repeat(moves) {
         print("H: $head")
-        head = Pair(head.first, head.second - 1)
+        head = head.moveLeft()
         println(" => $head")
-        print("T: $tail")
-        tail = updateTail(tail, head)
-        visited.add(tail)
-        println(" => $tail")
+        updateTailWithDebugging()
     }
     return Pair(head, tail)
 }
@@ -75,12 +69,9 @@ private fun moveDown(moves: Int): Pair<Pair<Int, Int>, Pair<Int, Int>> {
     println("Move D")
     repeat(moves) {
         print("H: $head")
-        head = Pair(head.first - 1, head.second)
+        head = head.moveDown()
         println(" => $head")
-        print("T: $tail")
-        tail = updateTail(tail, head)
-        visited.add(tail)
-        println(" => $tail")
+        updateTailWithDebugging()
     }
     return Pair(head, tail)
 }
@@ -89,13 +80,17 @@ private fun moveUp(moves: Int) {
     println("Move U")
     repeat(moves) {
         print("H: $head")
-        head = Pair(head.first + 1, head.second)
+        head = head.moveUp()
         println(" => $head")
-        print("T: $tail")
-        tail = updateTail(tail, head)
-        visited.add(tail)
-        println(" => $tail")
+        updateTailWithDebugging()
     }
+}
+
+private fun updateTailWithDebugging() {
+    print("T: $tail")
+    tail = updateTail(tail, head)
+    visited.add(tail)
+    println(" => $tail")
 }
 
 val visited = mutableSetOf<Pair<Int, Int>>()
@@ -103,73 +98,107 @@ val visited = mutableSetOf<Pair<Int, Int>>()
 fun updateTail(tail: Pair<Int, Int>, head: Pair<Int, Int>): Pair<Int, Int> {
 
     // Do nothing when distance is max 1
-    if (abs(head.first - tail.first) <= 1 && abs(head.second - tail.second) <= 1) {
+    if (abs(head.first - tail.first) <= 1
+        && abs(head.second - tail.second) <= 1) {
         return Pair(tail.first, tail.second)
     }
 
-    // Move R
-    if (head.first == tail.first && abs(head.second - tail.second) > 1 && head.second > tail.second) {
-        return Pair(tail.first, tail.second + 1)
+    if (head isOneColumnAwayFrom tail && head isRightOf tail) {
+        return tail.moveRight()
     }
 
-    // Move L
-    if (head.first == tail.first && abs(head.second - tail.second) > 1 && head.second < tail.second) {
-        return Pair(tail.first, tail.second - 1)
+    if (head isOneColumnAwayFrom tail && head isLeftOf tail) {
+        return tail.moveLeft()
     }
 
-    // Move U
-    if (head.second == tail.second && abs(head.first - tail.first) > 1 && head.first > tail.first) {
-        return Pair(tail.first + 1, tail.second)
+    if (head isOneRowAwayFrom tail && head isAbove tail) {
+        return tail.moveUp()
     }
 
-    // Move D
-    if (head.second == tail.second && abs(head.first - tail.first) > 1 && head.first < tail.first) {
-        return Pair(tail.first - 1, tail.second)
+    if (head isOneRowAwayFrom tail && head isBelow tail) {
+        return tail.moveDown()
     }
 
-    // ROWS
-
-    // Move diagonal up/right
-    if (abs(head.first - tail.first) == 2 && head.first > tail.first && head.second > tail.second) {
-        return Pair(tail.first + 1, tail.second + 1)
+    if (head isTwoRowsAwayFrom tail
+        && head isAbove tail
+        && head isRightOf tail) {
+        return tail.moveUpRight()
     }
 
-    // Move diagonal down/right
-    if (abs(head.first - tail.first) == 2 && head.first < tail.first && head.second > tail.second) {
-        return Pair(tail.first - 1, tail.second + 1)
+    if (head isTwoRowsAwayFrom tail
+        && head isBelow tail
+        && head isRightOf tail) {
+        return tail.moveDownRight()
     }
 
-    // Move diagonal down/left
-    if (abs(head.first - tail.first) == 2 && head.first < tail.first && head.second < tail.second) {
-        return Pair(tail.first - 1, tail.second - 1)
+    if (head isTwoRowsAwayFrom tail
+        && head isBelow tail
+        && head isLeftOf tail) {
+        return tail.moveDownLeft()
     }
 
-    // Move diagonal up/left
-    if (abs(head.first - tail.first) == 2 && head.first > tail.first && head.second < tail.second) {
-        return Pair(tail.first + 1, tail.second - 1)
+    if (head isTwoRowsAwayFrom tail
+        && head isAbove tail
+        && head isLeftOf tail) {
+        return tail.moveUpLeft()
     }
 
-    // Cols
-
-    // Up/Right
-    if (abs(head.second - tail.second) == 2 && head.second > tail.second && head.first > tail.first) {
-        return Pair(tail.first + 1, tail.second + 1)
+    if (head isTwoColumnsAwayFrom tail
+        && head isRightOf tail
+        && head isAbove tail) {
+        return tail.moveUpRight()
     }
 
-    // Up/Left
-    if (abs(head.second - tail.second) == 2 && head.second < tail.second && head.first > tail.first) {
-        return Pair(tail.first + 1, tail.second - 1)
+    if (head isTwoColumnsAwayFrom tail
+        && head isLeftOf tail
+        && head isAbove tail) {
+        return tail.moveUpLeft()
     }
 
-    // Down/Left
-    if (abs(head.second - tail.second) == 2 && head.second < tail.second && head.first < tail.first) {
-        return Pair(tail.first - 1, tail.second - 1)
+    if (head isTwoColumnsAwayFrom tail
+        && head isLeftOf tail
+        && head isBelow tail) {
+        return tail.moveDownLeft()
     }
 
-    // Down/Right
-    if (abs(head.second - tail.second) == 2 && head.second > tail.second && head.first < tail.first) {
-        return Pair(tail.first - 1, tail.second + 1)
+    if (head isTwoColumnsAwayFrom tail
+        && head isRightOf tail
+        && head isBelow tail) {
+        return tail.moveDownRight()
     }
 
     return Pair(-1, -1)
 }
+
+private infix fun Pair<Int, Int>.isTwoRowsAwayFrom(tail: Pair<Int, Int>) =
+    abs(first - tail.first) == 2
+
+private infix fun Pair<Int, Int>.isTwoColumnsAwayFrom(tail: Pair<Int, Int>) =
+    abs(second - tail.second) == 2
+
+private fun Pair<Int, Int>.moveUpLeft() = Pair(first + 1, second - 1)
+private fun Pair<Int, Int>.moveDownLeft() = Pair(first - 1, second - 1)
+private fun Pair<Int, Int>.moveDownRight() = Pair(first - 1, second + 1)
+private fun Pair<Int, Int>.moveUpRight() = Pair(first + 1, second + 1)
+private fun Pair<Int, Int>.moveDown() = Pair(first - 1, second)
+private fun Pair<Int, Int>.moveUp() = Pair(first + 1, second)
+private fun Pair<Int, Int>.moveRight() = Pair(first, second + 1)
+private fun Pair<Int, Int>.moveLeft() = Pair(first, second - 1)
+
+private infix fun Pair<Int, Int>.isBelow(tail: Pair<Int, Int>) =
+    first < tail.first
+
+private infix fun Pair<Int, Int>.isAbove(tail: Pair<Int, Int>) =
+    first > tail.first
+
+private infix fun Pair<Int, Int>.isLeftOf(tail: Pair<Int, Int>) =
+    second < tail.second
+
+private infix fun Pair<Int, Int>.isRightOf(tail: Pair<Int, Int>) =
+    second > tail.second
+
+private infix fun Pair<Int, Int>.isOneRowAwayFrom(tail: Pair<Int, Int>) =
+    second == tail.second && abs(first - tail.first) > 1
+
+private infix fun Pair<Int, Int>.isOneColumnAwayFrom(tail: Pair<Int, Int>) =
+    first == tail.first && abs(second - tail.second) > 1
