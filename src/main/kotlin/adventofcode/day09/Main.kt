@@ -51,12 +51,17 @@ private fun move(
         Pair<Pair<Int, Int>, Pair<Int, Int>> {
     println("Move $direction")
     repeat(moves) {
-        print("H: $head")
-        head = moveDirection(head)
-        println(" => $head")
+        updateHeadWithDebugging(moveDirection)
         updateTailWithDebugging()
     }
     return Pair(head, tail)
+}
+
+private fun updateHeadWithDebugging(
+    moveDirection: (p: Pair<Int, Int>) -> Pair<Int, Int>) {
+    print("H: $head")
+    head = moveDirection(head)
+    println(" => $head")
 }
 
 private fun updateTailWithDebugging() {
