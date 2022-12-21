@@ -76,7 +76,7 @@ private fun updateHeadWithDebugging(
 var pairs = mutableListOf(one, two, three, four, five, six, seven, eight, nine)
 
 private fun updateTailWithDebugging() {
-    for (i in 0..8) {
+    for (i in 0 until pairs.size) {
         print("1: ${pairs[i]}")
         pairs[i] = updateTail(pairs[i], if (i == 0) head else pairs[i - 1])
         if (i + 1 == 9) {
