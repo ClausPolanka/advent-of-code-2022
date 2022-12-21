@@ -4,7 +4,17 @@ import java.io.*
 import kotlin.math.*
 
 var head = Pair(0, 0)
+var one = Pair(0, 0)
+var two = Pair(0, 0)
+var three = Pair(0, 0)
+var four = Pair(0, 0)
+var five = Pair(0, 0)
+var six = Pair(0, 0)
+var seven = Pair(0, 0)
+var eight = Pair(0, 0)
+var nine = Pair(0, 0)
 var tail = Pair(0, 0)
+
 val visited = mutableSetOf<Pair<Int, Int>>()
 
 fun main() {
@@ -65,9 +75,50 @@ private fun updateHeadWithDebugging(
 }
 
 private fun updateTailWithDebugging() {
-    print("T: $tail")
-    tail = updateTail(tail, head)
-    visited.add(tail)
+    tail = one
+    print("1: $tail")
+    one = updateTail(tail, head)
+    println(" => $tail")
+
+    tail = two
+    print("2: $tail")
+    two = updateTail(tail, one)
+    println(" => $tail")
+
+    tail = three
+    print("3: $tail")
+    three = updateTail(tail, two)
+    println(" => $tail")
+
+    tail = four
+    print("4: $tail")
+    four = updateTail(tail, three)
+    println(" => $tail")
+
+    tail = five
+    print("5: $tail")
+    five = updateTail(tail, four)
+    println(" => $tail")
+
+    tail = six
+    print("6: $tail")
+    six = updateTail(tail, five)
+    println(" => $tail")
+
+    tail = seven
+    print("7: $tail")
+    seven = updateTail(tail, six)
+    println(" => $tail")
+
+    tail = eight
+    print("8: $tail")
+    eight = updateTail(tail, seven)
+    println(" => $tail")
+
+    tail = nine
+    print("9: $tail")
+    nine = updateTail(tail, eight)
+    visited.add(nine)
     println(" => $tail")
 }
 
