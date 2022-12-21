@@ -5,6 +5,7 @@ import kotlin.math.*
 
 var head = Pair(0, 0)
 var tail = Pair(0, 0)
+val visited = mutableSetOf<Pair<Int, Int>>()
 
 fun main() {
     val sampleFileCommands =
@@ -31,10 +32,10 @@ fun main() {
     commands.forEach { cmd ->
         println(cmd)
         when (cmd.first()) {
-            "R" -> moveRight(cmd.last().toInt())
-            "L" -> moveLeft(cmd.last().toInt())
-            "U" -> moveUp(cmd.last().toInt())
-            "D" -> moveDown(cmd.last().toInt())
+            "R" -> move(cmd.last().toInt(), "R", ::moveRight)
+            "L" -> move(cmd.last().toInt(), "L", ::moveLeft)
+            "U" -> move(cmd.last().toInt(), "U", ::moveUp)
+            "D" -> move(cmd.last().toInt(), "D", ::moveDown)
         }
     }
 
@@ -43,47 +44,19 @@ fun main() {
     println(visited.size) // Part 1: 5683 (input) Part 1: 13 (sample)
 }
 
-private fun moveRight(moves: Int): Pair<Pair<Int, Int>, Pair<Int, Int>> {
-    println("Move R")
+private fun move(
+    moves: Int,
+    direction: String,
+    moveDirection: (p: Pair<Int, Int>) -> Pair<Int, Int>):
+        Pair<Pair<Int, Int>, Pair<Int, Int>> {
+    println("Move $direction")
     repeat(moves) {
         print("H: $head")
-        head = head.moveRight()
+        head = moveDirection(head)
         println(" => $head")
         updateTailWithDebugging()
     }
     return Pair(head, tail)
-}
-
-private fun moveLeft(moves: Int): Pair<Pair<Int, Int>, Pair<Int, Int>> {
-    println("Move L")
-    repeat(moves) {
-        print("H: $head")
-        head = head.moveLeft()
-        println(" => $head")
-        updateTailWithDebugging()
-    }
-    return Pair(head, tail)
-}
-
-private fun moveDown(moves: Int): Pair<Pair<Int, Int>, Pair<Int, Int>> {
-    println("Move D")
-    repeat(moves) {
-        print("H: $head")
-        head = head.moveDown()
-        println(" => $head")
-        updateTailWithDebugging()
-    }
-    return Pair(head, tail)
-}
-
-private fun moveUp(moves: Int) {
-    println("Move U")
-    repeat(moves) {
-        print("H: $head")
-        head = head.moveUp()
-        println(" => $head")
-        updateTailWithDebugging()
-    }
 }
 
 private fun updateTailWithDebugging() {
@@ -93,64 +66,48 @@ private fun updateTailWithDebugging() {
     println(" => $tail")
 }
 
-val visited = mutableSetOf<Pair<Int, Int>>()
-
 fun updateTail(tail: Pair<Int, Int>, head: Pair<Int, Int>): Pair<Int, Int> {
-
     // Do nothing when distance is max 1
     if (abs(head.first - tail.first) <= 1
         && abs(head.second - tail.second) <= 1) {
         return Pair(tail.first, tail.second)
     }
-
     if (head isOneColumnAwayFrom tail && head isRightOf tail) {
-        return tail.moveRight()
+        return moveRight(tail)
     }
-
     if (head isOneColumnAwayFrom tail && head isLeftOf tail) {
-        return tail.moveLeft()
+        return moveLeft(tail)
     }
-
     if (head isOneRowAwayFrom tail && head isAbove tail) {
-        return tail.moveUp()
+        return moveUp(tail)
     }
-
     if (head isOneRowAwayFrom tail && head isBelow tail) {
-        return tail.moveDown()
+        return moveDown(tail)
     }
-
     if (head isTwoRowsAwayFrom tail && head isAboveRightOf tail) {
         return tail.moveUpRight()
     }
-
     if (head isTwoRowsAwayFrom tail && head isBelowRightOf tail) {
         return tail.moveDownRight()
     }
-
     if (head isTwoRowsAwayFrom tail && head isBelowLeftOf tail) {
         return tail.moveDownLeft()
     }
-
     if (head isTwoRowsAwayFrom tail && head isAboveLeftOf tail) {
         return tail.moveUpLeft()
     }
-
     if (head isTwoColumnsAwayFrom tail && head isAboveRightOf tail) {
         return tail.moveUpRight()
     }
-
     if (head isTwoColumnsAwayFrom tail && head isAboveLeftOf tail) {
         return tail.moveUpLeft()
     }
-
     if (head isTwoColumnsAwayFrom tail && head isBelowLeftOf tail) {
         return tail.moveDownLeft()
     }
-
     if (head isTwoColumnsAwayFrom tail && head isBelowRightOf tail) {
         return tail.moveDownRight()
     }
-
     return Pair(-1, -1)
 }
 
@@ -164,10 +121,10 @@ private fun Pair<Int, Int>.moveUpLeft() = Pair(first + 1, second - 1)
 private fun Pair<Int, Int>.moveDownLeft() = Pair(first - 1, second - 1)
 private fun Pair<Int, Int>.moveDownRight() = Pair(first - 1, second + 1)
 private fun Pair<Int, Int>.moveUpRight() = Pair(first + 1, second + 1)
-private fun Pair<Int, Int>.moveDown() = Pair(first - 1, second)
-private fun Pair<Int, Int>.moveUp() = Pair(first + 1, second)
-private fun Pair<Int, Int>.moveRight() = Pair(first, second + 1)
-private fun Pair<Int, Int>.moveLeft() = Pair(first, second - 1)
+private fun moveDown(p: Pair<Int, Int>) = Pair(p.first - 1, p.second)
+private fun moveUp(p: Pair<Int, Int>) = Pair(p.first + 1, p.second)
+private fun moveRight(p: Pair<Int, Int>) = Pair(p.first, p.second + 1)
+private fun moveLeft(p: Pair<Int, Int>) = Pair(p.first, p.second - 1)
 
 private infix fun Pair<Int, Int>.isBelow(tail: Pair<Int, Int>) =
     first < tail.first
