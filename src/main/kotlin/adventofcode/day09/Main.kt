@@ -3,19 +3,11 @@ package adventofcode.day09
 import java.io.*
 import kotlin.math.*
 
-var head = Pair(0, 0)
-var one = Pair(0, 0)
-var two = Pair(0, 0)
-var three = Pair(0, 0)
-var four = Pair(0, 0)
-var five = Pair(0, 0)
-var six = Pair(0, 0)
-var seven = Pair(0, 0)
-var eight = Pair(0, 0)
-var nine = Pair(0, 0)
-
-var pairs =
-    mutableListOf(head, one, two, three, four, five, six, seven, eight, nine)
+val pairs = buildList {
+    repeat(10) {
+        add(Pair(0, 0))
+    }
+}.toMutableList()
 
 val visited = mutableSetOf<Pair<Int, Int>>()
 
