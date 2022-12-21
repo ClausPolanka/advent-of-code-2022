@@ -51,20 +51,20 @@ fun main() {
 
     println()
     println("How many positions does the tail of the rope visit at least once?")
-    println(visited.size) // Part 1: 5683 (input) Part 1: 13 (sample)
+    // Part 1: 5683 (input) Part 1: 13 (sample)
+    // Part 2: 2372 (input) Part 2: 1 (sample)
+    println(visited.size)
 }
 
 private fun move(
     moves: Int,
     direction: String,
-    moveDirection: (p: Pair<Int, Int>) -> Pair<Int, Int>):
-        Pair<Pair<Int, Int>, Pair<Int, Int>> {
+    moveDirection: (p: Pair<Int, Int>) -> Pair<Int, Int>) {
     println("Move $direction")
     repeat(moves) {
         updateHeadWithDebugging(moveDirection)
         updateTailWithDebugging()
     }
-    return Pair(head, tail)
 }
 
 private fun updateHeadWithDebugging(
