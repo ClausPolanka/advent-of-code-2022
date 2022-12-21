@@ -73,43 +73,17 @@ private fun updateHeadWithDebugging(
     println(" => $head")
 }
 
+var pairs = mutableListOf(one, two, three, four, five, six, seven, eight, nine)
+
 private fun updateTailWithDebugging() {
-    print("1: $one")
-    one = updateTail(one, head)
-    println(" => $one")
-
-    print("2: $two")
-    two = updateTail(two, one)
-    println(" => $two")
-
-    print("3: $three")
-    three = updateTail(three, two)
-    println(" => $three")
-
-    print("4: $four")
-    four = updateTail(four, three)
-    println(" => $four")
-
-    print("5: $five")
-    five = updateTail(five, four)
-    println(" => $five")
-
-    print("6: $six")
-    six = updateTail(six, five)
-    println(" => $six")
-
-    print("7: $seven")
-    seven = updateTail(seven, six)
-    println(" => $seven")
-
-    print("8: $eight")
-    eight = updateTail(eight, seven)
-    println(" => $eight")
-
-    print("9: $nine")
-    nine = updateTail(nine, eight)
-    visited.add(nine)
-    println(" => $nine")
+    for (i in 0..8) {
+        print("1: ${pairs[i]}")
+        pairs[i] = updateTail(pairs[i], if (i == 0) head else pairs[i - 1])
+        if (i + 1 == 9) {
+            visited.add(pairs[i])
+        }
+        println(" => ${pairs[i]}")
+    }
 }
 
 fun updateTail(tail: Pair<Int, Int>, head: Pair<Int, Int>): Pair<Int, Int> {
