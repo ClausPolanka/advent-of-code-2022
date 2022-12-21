@@ -74,51 +74,42 @@ private fun updateHeadWithDebugging(
 }
 
 private fun updateTailWithDebugging() {
-    var tail = one
-    print("1: $tail")
-    one = updateTail(tail, head)
-    println(" => $tail")
+    print("1: $one")
+    one = updateTail(one, head)
+    println(" => $one")
 
-    tail = two
-    print("2: $tail")
-    two = updateTail(tail, one)
-    println(" => $tail")
+    print("2: $two")
+    two = updateTail(two, one)
+    println(" => $two")
 
-    tail = three
-    print("3: $tail")
-    three = updateTail(tail, two)
-    println(" => $tail")
+    print("3: $three")
+    three = updateTail(three, two)
+    println(" => $three")
 
-    tail = four
-    print("4: $tail")
-    four = updateTail(tail, three)
-    println(" => $tail")
+    print("4: $four")
+    four = updateTail(four, three)
+    println(" => $four")
 
-    tail = five
-    print("5: $tail")
-    five = updateTail(tail, four)
-    println(" => $tail")
+    print("5: $five")
+    five = updateTail(five, four)
+    println(" => $five")
 
-    tail = six
-    print("6: $tail")
-    six = updateTail(tail, five)
-    println(" => $tail")
+    print("6: $six")
+    six = updateTail(six, five)
+    println(" => $six")
 
-    tail = seven
-    print("7: $tail")
-    seven = updateTail(tail, six)
-    println(" => $tail")
+    print("7: $seven")
+    seven = updateTail(seven, six)
+    println(" => $seven")
 
-    tail = eight
-    print("8: $tail")
-    eight = updateTail(tail, seven)
-    println(" => $tail")
+    print("8: $eight")
+    eight = updateTail(eight, seven)
+    println(" => $eight")
 
-    tail = nine
-    print("9: $tail")
-    nine = updateTail(tail, eight)
+    print("9: $nine")
+    nine = updateTail(nine, eight)
     visited.add(nine)
-    println(" => $tail")
+    println(" => $nine")
 }
 
 fun updateTail(tail: Pair<Int, Int>, head: Pair<Int, Int>): Pair<Int, Int> {
