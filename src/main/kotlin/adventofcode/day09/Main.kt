@@ -14,6 +14,9 @@ var seven = Pair(0, 0)
 var eight = Pair(0, 0)
 var nine = Pair(0, 0)
 
+var pairs =
+    mutableListOf(head, one, two, three, four, five, six, seven, eight, nine)
+
 val visited = mutableSetOf<Pair<Int, Int>>()
 
 fun main() {
@@ -68,18 +71,16 @@ private fun move(
 
 private fun updateHeadWithDebugging(
     moveDirection: (p: Pair<Int, Int>) -> Pair<Int, Int>) {
-    print("H: $head")
-    head = moveDirection(head)
-    println(" => $head")
+    print("H: ${pairs.first()}")
+    pairs[0] = moveDirection(pairs.first())
+    println(" => ${pairs.first()}")
 }
 
-var pairs = mutableListOf(one, two, three, four, five, six, seven, eight, nine)
-
 private fun updateTailWithDebugging() {
-    for (i in 0 until pairs.size) {
-        print("1: ${pairs[i]}")
-        pairs[i] = updateTail(pairs[i], if (i == 0) head else pairs[i - 1])
-        if (i + 1 == 9) {
+    for (i in 1 until pairs.size) {
+        print("$i: ${pairs[i]}")
+        pairs[i] = updateTail(pairs[i], pairs[i - 1])
+        if (i == 9) {
             visited.add(pairs[i])
         }
         println(" => ${pairs[i]}")
