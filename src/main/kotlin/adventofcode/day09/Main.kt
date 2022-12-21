@@ -13,7 +13,6 @@ var six = Pair(0, 0)
 var seven = Pair(0, 0)
 var eight = Pair(0, 0)
 var nine = Pair(0, 0)
-var tail = Pair(0, 0)
 
 val visited = mutableSetOf<Pair<Int, Int>>()
 
@@ -75,7 +74,7 @@ private fun updateHeadWithDebugging(
 }
 
 private fun updateTailWithDebugging() {
-    tail = one
+    var tail = one
     print("1: $tail")
     one = updateTail(tail, head)
     println(" => $tail")
