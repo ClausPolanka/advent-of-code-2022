@@ -19,9 +19,10 @@ each tick is called a cycle.
 Start by figuring out the signal being sent by the CPU. The CPU has a single
 register, X, which starts with the value 1. It supports only two instructions:
 
-addx V takes two cycles to complete. After two cycles, the X register is
-increased by the value V. (V can be negative.)
-noop takes one cycle to complete. It has no other effect.
+- `addx V` takes two cycles to complete. After two cycles, the X register is
+  increased by the value V. (V can be negative.)
+- `noop` takes one cycle to complete. It has no other effect.
+
 The CPU uses these instructions in a program (your puzzle input) to, somehow,
 tell the screen what to draw.
 
