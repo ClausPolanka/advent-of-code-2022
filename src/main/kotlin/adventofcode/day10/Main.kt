@@ -1,155 +1,29 @@
 package adventofcode.day10
 
+import java.io.*
+
 fun main() {
-    val input = """
-        addx 15
-        addx -11
-        addx 6
-        addx -3
-        addx 5
-        addx -1
-        addx -8
-        addx 13
-        addx 4
-        noop
-        addx -1
-        addx 5
-        addx -1
-        addx 5
-        addx -1
-        addx 5
-        addx -1
-        addx 5
-        addx -1
-        addx -35
-        addx 1
-        addx 24
-        addx -19
-        addx 1
-        addx 16
-        addx -11
-        noop
-        noop
-        addx 21
-        addx -15
-        noop
-        noop
-        addx -3
-        addx 9
-        addx 1
-        addx -3
-        addx 8
-        addx 1
-        addx 5
-        noop
-        noop
-        noop
-        noop
-        noop
-        addx -36
-        noop
-        addx 1
-        addx 7
-        noop
-        noop
-        noop
-        addx 2
-        addx 6
-        noop
-        noop
-        noop
-        noop
-        noop
-        addx 1
-        noop
-        noop
-        addx 7
-        addx 1
-        noop
-        addx -13
-        addx 13
-        addx 7
-        noop
-        addx 1
-        addx -33
-        noop
-        noop
-        noop
-        addx 2
-        noop
-        noop
-        noop
-        addx 8
-        noop
-        addx -1
-        addx 2
-        addx 1
-        noop
-        addx 17
-        addx -9
-        addx 1
-        addx 1
-        addx -3
-        addx 11
-        noop
-        noop
-        addx 1
-        noop
-        addx 1
-        noop
-        noop
-        addx -13
-        addx -19
-        addx 1
-        addx 3
-        addx 26
-        addx -30
-        addx 12
-        addx -1
-        addx 3
-        addx 1
-        noop
-        noop
-        noop
-        addx -9
-        addx 18
-        addx 1
-        addx 2
-        noop
-        noop
-        addx 9
-        noop
-        noop
-        noop
-        addx -1
-        addx 2
-        addx -37
-        addx 1
-        addx 3
-        noop
-        addx 15
-        addx -21
-        addx 22
-        addx -6
-        addx 1
-        noop
-        addx 2
-        addx 1
-        noop
-        addx -10
-        noop
-        noop
-        addx 20
-        addx 1
-        addx 2
-        addx 2
-        addx -6
-        addx -11
-        noop
-        noop
-        noop
-    """.trimIndent()
-
-    val commands = input.split(System.lineSeparator())
-
+    val inputFileCommands =
+        File("requirements/day10/sample.txt").useLines { it.toList() }
+    val commands = inputFileCommands
+    val result = buildList {
+        commands.forEachIndexed { idx, it ->
+            val parts = it.split(" ")
+            when (parts.size) {
+                1 -> add(Pair("$it, ${idx + 1}", 0))
+                else -> {
+                    add(Pair("$it, ${idx + 1}", 0))
+                    add(Pair("$it, ${idx + 1}", parts.last().toInt()))
+                }
+            }
+        }
+    }
+    var sum = 0
+    var i = 20
+    while (i < result.size) {
+        val tmp = result.take(i).sumOf { it.second } + 1
+        sum += (i * tmp)
+        i += 40
+    }
+    println(sum)
 }
