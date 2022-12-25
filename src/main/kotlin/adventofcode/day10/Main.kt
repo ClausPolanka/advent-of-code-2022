@@ -6,27 +6,30 @@ fun main() {
     val inputFileCommands =
         File("requirements/day10/sample.txt").useLines { it.toList() }
     val commands = inputFileCommands
-    val result = buildList {
-        commands.forEachIndexed { idx, it ->
-            val parts = it.split(" ")
-            when (parts.size) {
-                1 -> add(Pair("$it, ${idx + 1}", 0))
-                else -> {
-                    add(Pair("$it, 1/2 ${idx + 1}", 0))
-                    add(Pair("$it, 2/2 ${idx + 1}", parts.last().toInt()))
-                }
+    part1WorkingSolution(commands
+    ) { currentCylce: Int -> currentCylce % 40 == 20 }
+}
+
+fun part1WorkingSolution(
+    commands: List<String>,
+    isSigStrengthWanted: (Int) -> Boolean): Data {
+    var x = 1
+    var currentCycle = 1
+    var signalStrength = 0
+    commands.forEach {
+        currentCycle++
+        if (isSigStrengthWanted(currentCycle)) {
+            signalStrength += (currentCycle * x)
+        }
+        if (it != "noop") {
+            currentCycle++
+            x += it.substringAfter(" ").toInt()
+            if (isSigStrengthWanted(currentCycle)) {
+                signalStrength += (currentCycle * x)
             }
         }
     }
-    var sum = 0
-    var i = 20
-    while (i < result.size) {
-        val todo = result.take(i)
-        val tmp = todo.sumOf { it.second } +
-                if (todo.last().first.contains(
-                        "noop") || todo.last().first.contains("1/2")) 1 else 0
-        sum += (i * tmp)
-        i += 40
-    }
-    println(sum)
+    return Data(signalStrength, x, currentCycle)
 }
+
+data class Data(val signalStrength: Int, val x: Int, val currentCycle: Int)
