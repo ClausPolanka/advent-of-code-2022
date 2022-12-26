@@ -3,6 +3,7 @@ package tests.adventofcode.day11
 import adventofcode.day11.*
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
+import java.io.*
 
 class Tests {
     @Test
@@ -266,6 +267,22 @@ class Tests {
                 ms[3].inspectedItems, "monkey inspected items") },
         )
         // @formatter:on
+    }
+
+    @Test
+    fun `monkey business for input file`() {
+        val input =
+            File("requirements/day11/input.txt").readText()
+        val mb = monkeyBusinessFor(input)
+        assertEquals(50616, mb, "monkey business")
+    }
+
+    @Test
+    fun `monkey business for sample`() {
+        val input =
+            File("requirements/day11/sample.txt").readText()
+        val mb = monkeyBusinessFor(input)
+        assertEquals(10605, mb, "monkey business")
     }
 
 }

@@ -1,34 +1,21 @@
 package adventofcode.day11
 
+import java.io.*
 import java.lang.System.lineSeparator
 import kotlin.math.*
 
 fun main() {
-    println("hello world")
-    val s = """
-        Monkey 0:
-          Starting items: 78, 53, 89, 51, 52, 59, 58, 85
-          Operation: new = old * 3
-          Test: divisible by 5
-            If true: throw to monkey 2
-            If false: throw to monkey 7
+    val input =
+        File("requirements/day11/input.txt").readText()
+    val result = monkeyBusinessFor(input)
+    println(result)
+}
 
-        Monkey 1:
-          Starting items: 64
-          Operation: new = old + 7
-          Test: divisible by 2
-            If true: throw to monkey 3
-            If false: throw to monkey 6
-        
-        Monkey 2:
-          Starting items: 71, 93, 65, 82
-          Operation: new = old + 5
-          Test: divisible by 13
-            If true: throw to monkey 5
-            If false: throw to monkey 4
-    """.trimIndent()
-    val ms: List<Monkey> = parseMonkeys(s)
+fun monkeyBusinessFor(input: String): Int {
+    val ms: List<Monkey> = parseMonkeys(input)
     repeat(20) { oneRound(ms) }
+    val sorted = ms.sortedByDescending { it.inspectedItems }
+    return sorted.first().inspectedItems * sorted[1].inspectedItems
 }
 
 fun oneRound(ms: List<Monkey>) {
