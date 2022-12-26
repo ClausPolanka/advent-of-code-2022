@@ -1,6 +1,7 @@
 package adventofcode.day11
 
 import java.lang.System.lineSeparator
+import kotlin.math.*
 
 fun main() {
     println("hello world")
@@ -97,7 +98,44 @@ data class Monkey(
     val fn: Operation,
     val divisor: Int,
     val trueMonkeyId: Int,
-    val falseMonkeyId: Int)
+    val falseMonkeyId: Int) {
+
+    fun throwItems(): List<Pair<Int, Int>> {
+        return startingItems.map { determineMonkeyFor(it) }
+    }
+
+    private fun determineMonkeyFor(worryLevel: Int): Pair<Int, Int> {
+        val newWorryLevel = applyOperationFor(worryLevel)
+        val finalWorryLevel = monkeyBored(newWorryLevel)
+        val mId = if (isDevideableBy(divisor, finalWorryLevel))
+            trueMonkeyId else falseMonkeyId
+        return Pair(mId, finalWorryLevel)
+    }
+
+    private fun isDevideableBy(divisor: Int, value: Int) = value % divisor == 0
+
+    private fun monkeyBored(worryLevel: Int): Int =
+        floor(worryLevel.toDouble() / 3).roundToInt()
+
+    private fun applyOperationFor(worryLevel: Int) = when (fn.operand) {
+        "+" -> left(worryLevel) + right(worryLevel)
+        "*" -> left(worryLevel) * right(worryLevel)
+        "/" -> left(worryLevel) / right(worryLevel)
+        "-" -> left(worryLevel) - right(worryLevel)
+        else -> throw IllegalArgumentException(
+            "Operation not supported: '${fn.operand}'")
+    }
+
+    private fun left(worryLevel: Int): Int = when (fn.left) {
+        "old" -> worryLevel
+        else -> fn.left.toInt()
+    }
+
+    private fun right(worryLevel: Int): Int = when (fn.right) {
+        "old" -> worryLevel
+        else -> fn.right.toInt()
+    }
+}
 
 val defaultMonkey = Monkey(
     id = -1,
