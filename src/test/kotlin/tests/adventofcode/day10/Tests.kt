@@ -27,8 +27,8 @@ class Tests {
 
     @Test
     fun `addX 1, cycle == 1`() {
-        val result =
-            part1WorkingSolution(listOf("addX 1")) { cycle -> cycle == 1 }
+        val result = part1WorkingSolution(
+            commands = listOf("addX 1")) { cycle -> cycle == 1 }
         assertEquals(
             Data(signalStrength = 0, x = 2, currentCycle = 3),
             result)
@@ -36,8 +36,8 @@ class Tests {
 
     @Test
     fun `addX 1, cycle == 2`() {
-        val result =
-            part1WorkingSolution(listOf("addX 1")) { cycle -> cycle == 2 }
+        val result = part1WorkingSolution(
+            commands = listOf("addX 1")) { cycle -> cycle == 2 }
         assertEquals(
             Data(signalStrength = 2, x = 2, currentCycle = 3),
             result)
@@ -45,8 +45,8 @@ class Tests {
 
     @Test
     fun `addX 1, cycle == 3`() {
-        val result =
-            part1WorkingSolution(listOf("addX 1")) { cycle -> cycle == 3 }
+        val result = part1WorkingSolution(
+            commands = listOf("addX 1")) { cycle -> cycle == 3 }
         assertEquals(
             Data(signalStrength = 6, x = 2, currentCycle = 3),
             result)
@@ -54,7 +54,7 @@ class Tests {
 
     @Test
     fun `addX 1, addX 1, cycle == 1`() {
-        val result = part1WorkingSolution(listOf(
+        val result = part1WorkingSolution(commands = listOf(
             "addX 1",
             "addX 1")) { cycle -> cycle == 1 }
         assertEquals(
@@ -64,9 +64,9 @@ class Tests {
 
     @Test
     fun `addX 1, addX 1, cycle == 2`() {
-        val result =
-            part1WorkingSolution(listOf("addX 1", "addX 1")
-            ) { cycle -> cycle == 2 }
+        val result = part1WorkingSolution(commands = listOf(
+            "addX 1",
+            "addX 1")) { cycle -> cycle == 2 }
         assertEquals(
             Data(signalStrength = 2, x = 3, currentCycle = 5),
             result)
@@ -75,8 +75,9 @@ class Tests {
     @Test
     fun `addX 1, addX 1, cycle == 1 || 2`() {
         val result =
-            part1WorkingSolution(listOf("addX 1", "addX 1")
-            ) { cycle -> cycle == 1 || cycle == 2 }
+            part1WorkingSolution(commands = listOf(
+                "addX 1",
+                "addX 1")) { cycle -> cycle == 1 || cycle == 2 }
         assertEquals(
             Data(signalStrength = 2, x = 3, currentCycle = 5),
             result)
@@ -84,7 +85,7 @@ class Tests {
 
     @Test
     fun `noop, cycle == mod 40`() {
-        val result = part1WorkingSolution(listOf("noop"), mod40)
+        val result = part1WorkingSolution(commands = listOf("noop"), mod40)
         assertEquals(
             Data(signalStrength = 0, x = 1, currentCycle = 2),
             result)
@@ -92,7 +93,7 @@ class Tests {
 
     @Test
     fun `addX 1, cylce == mod 40`() {
-        val result = part1WorkingSolution(listOf("addX 1"), mod40)
+        val result = part1WorkingSolution(commands = listOf("addX 1"), mod40)
         assertEquals(
             Data(signalStrength = 0, x = 2, currentCycle = 3),
             result)
