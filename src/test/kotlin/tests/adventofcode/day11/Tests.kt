@@ -32,7 +32,11 @@ class Tests {
                     listOf(79, 98), m.startingItems, "monkey starting items") },
             { assertEquals(
                 Operation("old", "19", "*"), m.fn, "monkey operation") },
+            { assertEquals(23, m.divisor, "monkey divisor") },
+            { assertEquals(2, m.trueMonkeyId, "monkey id if true") },
+            { assertEquals(3, m.falseMonkeyId, "monkey id if false") },
         )
         // @formatter:on
     }
+
 }
