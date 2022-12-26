@@ -1,23 +1,47 @@
 package adventofcode.day11
 
+import java.lang.System.lineSeparator
+
 fun main() {
     println("hello world")
     val s = """
         Monkey 0:
-          Starting items: 79, 98
-          Operation: new = old * 19
-          Test: divisible by 23
+          Starting items: 78, 53, 89, 51, 52, 59, 58, 85
+          Operation: new = old * 3
+          Test: divisible by 5
             If true: throw to monkey 2
-            If false: throw to monkey 3
+            If false: throw to monkey 7
+
+        Monkey 1:
+          Starting items: 64
+          Operation: new = old + 7
+          Test: divisible by 2
+            If true: throw to monkey 3
+            If false: throw to monkey 6
+        
+        Monkey 2:
+          Starting items: 71, 93, 65, 82
+          Operation: new = old + 5
+          Test: divisible by 13
+            If true: throw to monkey 5
+            If false: throw to monkey 4
     """.trimIndent()
-    val m: Monkey = parseMonkey(s)
+    val ms: List<Monkey> = parseMonkeys(s)
+    ms.forEach {
+        println(it)
+    }
+}
+
+fun parseMonkeys(s: String): List<Monkey> {
+    return s.split("${lineSeparator()}${lineSeparator()}")
+        .map { parseMonkey(it) }
 }
 
 fun parseMonkey(s: String): Monkey {
     if (s.isEmpty()) {
         return defaultMonkey
     }
-    val lines = s.split(System.lineSeparator())
+    val lines = s.split(lineSeparator())
     return defaultMonkey.copy(
         id = parseMonkeyId(lines[0]),
         startingItems = parseStartingItems(lines[1]),
@@ -83,4 +107,4 @@ val defaultMonkey = Monkey(
     trueMonkeyId = -1,
     falseMonkeyId = -1)
 
-data class Operation(val left: String, val right: String, val s: String)
+data class Operation(val left: String, val right: String, val operand: String)
