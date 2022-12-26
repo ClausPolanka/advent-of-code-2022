@@ -28,9 +28,23 @@ fun main() {
             If false: throw to monkey 4
     """.trimIndent()
     val ms: List<Monkey> = parseMonkeys(s)
+    oneRound(ms)
+}
+
+fun oneRound(ms: List<Monkey>) {
     ms.forEach {
-        println(it)
+        val items = it.throwItems()
+        updateMonkeys(ms, items)
     }
+}
+
+fun updateMonkeys(monkeys: List<Monkey>,
+                  items: List<Pair<Int, Int>>): List<Monkey> {
+    items.forEach { item ->
+        val m = monkeys.first { it.id == item.first }
+        m.startingItems.add(item.second)
+    }
+    return monkeys
 }
 
 fun parseMonkeys(s: String): List<Monkey> {
@@ -55,9 +69,10 @@ fun parseMonkey(s: String): Monkey {
 
 fun parseMonkeyId(s: String): Int = s.split(" ")[1].split(":").first().toInt()
 
-fun parseStartingItems(s: String): List<Int> = s.split(":")[1].split(",")
+fun parseStartingItems(s: String): MutableList<Int> = s.split(":")[1].split(",")
     .map { it.trim() }
     .map { it.toInt() }
+    .toMutableList()
 
 fun parseOperation(s: String): Operation {
     val op = s.split("=")[1].trim()
@@ -94,14 +109,16 @@ private fun parseLastNumberOf(s: String) = s.split(" ").last().toInt()
 
 data class Monkey(
     val id: Int,
-    val startingItems: List<Int>,
+    val startingItems: MutableList<Int>,
     val fn: Operation,
     val divisor: Int,
     val trueMonkeyId: Int,
     val falseMonkeyId: Int) {
 
     fun throwItems(): List<Pair<Int, Int>> {
-        return startingItems.map { determineMonkeyFor(it) }
+        val monkeyToWorries = startingItems.map { determineMonkeyFor(it) }
+        startingItems.clear()
+        return monkeyToWorries
     }
 
     private fun determineMonkeyFor(worryLevel: Int): Pair<Int, Int> {
@@ -139,7 +156,7 @@ data class Monkey(
 
 val defaultMonkey = Monkey(
     id = -1,
-    startingItems = emptyList(),
+    startingItems = mutableListOf(),
     fn = Operation("x", "y", "+"),
     divisor = 0,
     trueMonkeyId = -1,
