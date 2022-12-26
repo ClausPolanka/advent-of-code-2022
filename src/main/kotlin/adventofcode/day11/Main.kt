@@ -41,7 +41,22 @@ fun parseOperation(s: String): Operation {
         val right = op.split("*")[1].trim()
         return Operation(left, right, "*")
     }
-    return Operation("left", "right", "-")
+    if (op.contains("+")) {
+        val left = op.split("+")[0].trim()
+        val right = op.split("+")[1].trim()
+        return Operation(left, right, "+")
+    }
+    if (op.contains("-")) {
+        val left = op.split("-")[0].trim()
+        val right = op.split("-")[1].trim()
+        return Operation(left, right, "-")
+    }
+    if (op.contains("/")) {
+        val left = op.split("/")[0].trim()
+        val right = op.split("/")[1].trim()
+        return Operation(left, right, "/")
+    }
+    throw IllegalArgumentException("Operation not supported: '$op'")
 }
 
 fun parseDivisor(s: String): Int = parseLastNumberOf(s)

@@ -19,7 +19,7 @@ class Tests {
         val s = """
             Monkey 0:
               Starting items: 79, 98
-              Operation: new = old * 19
+              Operation: new = 1 / old
               Test: divisible by 23
                 If true: throw to monkey 2
                 If false: throw to monkey 3
@@ -31,7 +31,7 @@ class Tests {
             { assertEquals(
                     listOf(79, 98), m.startingItems, "monkey starting items") },
             { assertEquals(
-                Operation("old", "19", "*"), m.fn, "monkey operation") },
+                Operation("1", "old", "/"), m.fn, "monkey operation") },
             { assertEquals(23, m.divisor, "monkey divisor") },
             { assertEquals(2, m.trueMonkeyId, "monkey id if true") },
             { assertEquals(3, m.falseMonkeyId, "monkey id if false") },
