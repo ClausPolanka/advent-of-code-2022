@@ -12,13 +12,13 @@ fun main() {
 }
 
 fun monkeyBusinessFor(input: String): Int {
-    val ms: List<Monkey> = parseMonkeys(input)
-    repeat(20) { oneRound(ms) }
-    val sorted = ms.sortedByDescending { it.inspectedItems }
+    val monkeys = parseMonkeys(input)
+    repeat(20) { oneRoundOfThrowing(monkeys) }
+    val sorted = monkeys.sortedByDescending { it.inspectedItems }
     return sorted.first().inspectedItems * sorted[1].inspectedItems
 }
 
-fun oneRound(ms: List<Monkey>) {
+fun oneRoundOfThrowing(ms: List<Monkey>) {
     ms.forEach {
         val items = it.throwItems()
         updateMonkeys(ms, items)

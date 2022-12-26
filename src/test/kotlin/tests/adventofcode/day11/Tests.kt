@@ -148,7 +148,7 @@ class Tests {
                 If false: throw to monkey 1
         """.trimIndent()
         val ms = parseMonkeys(s)
-        oneRound(ms)
+        oneRoundOfThrowing(ms)
         // @formatter:off
         assertAll(
             { assertEquals(
@@ -199,7 +199,7 @@ class Tests {
                 If false: throw to monkey 1
         """.trimIndent()
         val ms = parseMonkeys(s)
-        repeat(20) { oneRound(ms) }
+        repeat(20) { oneRoundOfThrowing(ms) }
         // @formatter:off
         assertAll(
             { assertEquals(
@@ -250,7 +250,7 @@ class Tests {
                 If false: throw to monkey 1
         """.trimIndent()
         val ms = parseMonkeys(s)
-        repeat(20) { oneRound(ms) }
+        repeat(20) { oneRoundOfThrowing(ms) }
         // @formatter:off
         assertAll(
             { assertEquals(
