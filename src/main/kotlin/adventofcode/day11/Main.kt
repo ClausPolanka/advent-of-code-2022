@@ -28,7 +28,7 @@ fun main() {
             If false: throw to monkey 4
     """.trimIndent()
     val ms: List<Monkey> = parseMonkeys(s)
-    oneRound(ms)
+    repeat(20) { oneRound(ms) }
 }
 
 fun oneRound(ms: List<Monkey>) {
