@@ -115,7 +115,10 @@ data class Monkey(
     val trueMonkeyId: Int,
     val falseMonkeyId: Int) {
 
+    var inspectedItems: Int = 0
+
     fun throwItems(): List<Pair<Int, Int>> {
+        inspectedItems += startingItems.size
         val monkeyToWorries = startingItems.map { determineMonkeyFor(it) }
         startingItems.clear()
         return monkeyToWorries
