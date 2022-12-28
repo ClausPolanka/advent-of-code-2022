@@ -6,7 +6,7 @@ import kotlin.math.*
 
 fun main() {
     val input =
-        File("requirements/day11/input.txt").readText()
+        File("requirements/day11/sample.txt").readText()
     val result = monkeyBusinessFor(input)
     println(result)
 }
@@ -16,22 +16,6 @@ fun monkeyBusinessFor(input: String): Int {
     repeat(20) { oneRoundOfThrowing(monkeys) }
     val sorted = monkeys.sortedByDescending { it.inspectedItems }
     return sorted.first().inspectedItems * sorted[1].inspectedItems
-}
-
-fun oneRoundOfThrowing(ms: List<Monkey>) {
-    ms.forEach {
-        val items = it.throwItems()
-        updateMonkeys(ms, items)
-    }
-}
-
-fun updateMonkeys(monkeys: List<Monkey>,
-                  items: List<Pair<Int, Int>>): List<Monkey> {
-    items.forEach { item ->
-        val m = monkeys.first { it.id == item.first }
-        m.startingItems.add(item.second)
-    }
-    return monkeys
 }
 
 fun parseMonkeys(s: String): List<Monkey> {
@@ -44,14 +28,13 @@ fun parseMonkey(s: String): Monkey {
         return defaultMonkey
     }
     val lines = s.split(lineSeparator())
-    return defaultMonkey.copy(
+    return Monkey(
         id = parseMonkeyId(lines[0]),
         startingItems = parseStartingItems(lines[1]),
         fn = parseOperation(lines[2]),
         divisor = parseDivisor(lines[3]),
         trueMonkeyId = parseTrueMonkeyId(lines[4]),
-        falseMonkeyId = parseFalseMonkeyId(lines[5]),
-    )
+        falseMonkeyId = parseFalseMonkeyId(lines[5]))
 }
 
 fun parseMonkeyId(s: String): Int = s.split(" ")[1].split(":").first().toInt()
@@ -94,6 +77,24 @@ fun parseFalseMonkeyId(s: String): Int = parseLastNumberOf(s)
 
 private fun parseLastNumberOf(s: String) = s.split(" ").last().toInt()
 
+fun oneRoundOfThrowing(monkeys: List<Monkey>) {
+    monkeys.forEach { monkey ->
+        val items = monkey.throwItems()
+        updateMonkeys(monkeys, items)
+    }
+}
+
+fun updateMonkeys(
+    monkeys: List<Monkey>,
+    monkeyIdToNewItem: List<Pair<Int, Int>>): List<Monkey> {
+
+    monkeyIdToNewItem.forEach {
+        val m = monkeys.first { monkey -> monkey.id == it.first }
+        m.startingItems.add(it.second)
+    }
+    return monkeys
+}
+
 data class Monkey(
     val id: Int,
     val startingItems: MutableList<Int>,
@@ -114,9 +115,11 @@ data class Monkey(
     private fun determineMonkeyFor(worryLevel: Int): Pair<Int, Int> {
         val newWorryLevel = applyOperationFor(worryLevel)
         val finalWorryLevel = monkeyBored(newWorryLevel)
-        val mId = if (isDevideableBy(divisor, finalWorryLevel))
-            trueMonkeyId else falseMonkeyId
-        return Pair(mId, finalWorryLevel)
+        val monkeyId = if (isDevideableBy(divisor, finalWorryLevel))
+            trueMonkeyId
+        else
+            falseMonkeyId
+        return Pair(monkeyId, finalWorryLevel)
     }
 
     private fun isDevideableBy(divisor: Int, value: Int) = value % divisor == 0
