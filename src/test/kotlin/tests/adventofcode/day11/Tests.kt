@@ -57,8 +57,14 @@ class Tests {
         val monkeys = m.throwItems()
         // @formatter:off
         assertAll(
-            { assertEquals(Pair(3, BigDecimal(500)), monkeys.first(), "monkey") },
-            { assertEquals(Pair(3, BigDecimal(620)), monkeys.last(), "monkey") },
+            { assertEquals(
+                Pair(3, BigDecimal(500)),
+                monkeys.first(),
+                "monkey") },
+            { assertEquals(
+                Pair(3, BigDecimal(620)),
+                monkeys.last(),
+                "monkey") },
         )
         // @formatter:on
     }
@@ -213,11 +219,19 @@ class Tests {
         repeat(20) { oneRoundOfThrowing(ms) }
         // @formatter:off
         assertAll(
-            { assertEquals(
-                listOf(BigDecimal(10), BigDecimal(12), BigDecimal(14), BigDecimal(26), BigDecimal(34)),
+            { assertEquals(listOf(
+                BigDecimal(10),
+                BigDecimal(12),
+                BigDecimal(14),
+                BigDecimal(26),
+                BigDecimal(34)),
                 ms.first().startingItems, "monkey items") },
-            { assertEquals(
-                listOf(BigDecimal(245), BigDecimal(93), BigDecimal(53), BigDecimal(199), BigDecimal(115)),
+            { assertEquals(listOf(
+                BigDecimal(245),
+                BigDecimal(93),
+                BigDecimal(53),
+                BigDecimal(199),
+                BigDecimal(115)),
                 ms[1].startingItems, "monkey items") },
             { assertEquals(
                 emptyList<BigDecimal>(),
