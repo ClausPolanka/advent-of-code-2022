@@ -11,7 +11,7 @@ fun main() {
     println(result)
 }
 
-fun monkeyBusinessFor(input: String): Int {
+fun monkeyBusinessFor(input: String): Long {
     val monkeys = parseMonkeys(input)
     repeat(20) { oneRoundOfThrowing(monkeys) }
     val sorted = monkeys.sortedByDescending { it.inspectedItems }
@@ -104,7 +104,7 @@ data class Monkey(
     val trueMonkeyId: Int,
     val falseMonkeyId: Int) {
 
-    var inspectedItems: Int = 0
+    var inspectedItems: Long = 0
 
     fun throwItems(): List<Pair<Int, Long>> {
         inspectedItems += startingItems.size
