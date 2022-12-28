@@ -39,10 +39,11 @@ fun parseMonkey(s: String): Monkey {
 
 fun parseMonkeyId(s: String): Int = s.split(" ")[1].split(":").first().toInt()
 
-fun parseStartingItems(s: String): MutableList<Int> = s.split(":")[1].split(",")
-    .map { it.trim() }
-    .map { it.toInt() }
-    .toMutableList()
+fun parseStartingItems(s: String): MutableList<Long> =
+    s.split(":")[1].split(",")
+        .map { it.trim() }
+        .map { it.toLong() }
+        .toMutableList()
 
 fun parseOperation(s: String): Operation {
     val op = s.split("=")[1].trim()
@@ -86,7 +87,7 @@ fun oneRoundOfThrowing(monkeys: List<Monkey>) {
 
 fun updateMonkeys(
     monkeys: List<Monkey>,
-    monkeyIdToNewItem: List<Pair<Int, Int>>): List<Monkey> {
+    monkeyIdToNewItem: List<Pair<Int, Long>>): List<Monkey> {
 
     monkeyIdToNewItem.forEach {
         val m = monkeys.first { monkey -> monkey.id == it.first }
@@ -97,7 +98,7 @@ fun updateMonkeys(
 
 data class Monkey(
     val id: Int,
-    val startingItems: MutableList<Int>,
+    val startingItems: MutableList<Long>,
     val fn: Operation,
     val divisor: Int,
     val trueMonkeyId: Int,
@@ -105,14 +106,14 @@ data class Monkey(
 
     var inspectedItems: Int = 0
 
-    fun throwItems(): List<Pair<Int, Int>> {
+    fun throwItems(): List<Pair<Int, Long>> {
         inspectedItems += startingItems.size
         val monkeyToWorries = startingItems.map { determineMonkeyFor(it) }
         startingItems.clear()
         return monkeyToWorries
     }
 
-    private fun determineMonkeyFor(worryLevel: Int): Pair<Int, Int> {
+    private fun determineMonkeyFor(worryLevel: Long): Pair<Int, Long> {
         val newWorryLevel = applyOperationFor(worryLevel)
         val finalWorryLevel = monkeyBored(newWorryLevel)
         val monkeyId = if (isDevideableBy(divisor, finalWorryLevel))
@@ -122,12 +123,13 @@ data class Monkey(
         return Pair(monkeyId, finalWorryLevel)
     }
 
-    private fun isDevideableBy(divisor: Int, value: Int) = value % divisor == 0
+    private fun isDevideableBy(divisor: Int, value: Long) =
+        value % divisor == 0L
 
-    private fun monkeyBored(worryLevel: Int): Int =
-        floor(worryLevel.toDouble() / 3).roundToInt()
+    private fun monkeyBored(worryLevel: Long): Long =
+        floor(worryLevel.toDouble() / 3).roundToLong()
 
-    private fun applyOperationFor(worryLevel: Int) = when (fn.operand) {
+    private fun applyOperationFor(worryLevel: Long): Long = when (fn.operand) {
         "+" -> left(worryLevel) + right(worryLevel)
         "*" -> left(worryLevel) * right(worryLevel)
         "/" -> left(worryLevel) / right(worryLevel)
@@ -136,14 +138,14 @@ data class Monkey(
             "Operation not supported: '${fn.operand}'")
     }
 
-    private fun left(worryLevel: Int): Int = when (fn.left) {
+    private fun left(worryLevel: Long): Long = when (fn.left) {
         "old" -> worryLevel
-        else -> fn.left.toInt()
+        else -> fn.left.toLong()
     }
 
-    private fun right(worryLevel: Int): Int = when (fn.right) {
+    private fun right(worryLevel: Long): Long = when (fn.right) {
         "old" -> worryLevel
-        else -> fn.right.toInt()
+        else -> fn.right.toInt().toLong()
     }
 }
 

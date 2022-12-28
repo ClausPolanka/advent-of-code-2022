@@ -29,8 +29,10 @@ class Tests {
         // @formatter:off
         assertAll(
             { assertEquals(0, m.id, "monkey id") },
-            { assertEquals(
-                    listOf(79, 98), m.startingItems, "monkey starting items") },
+            { assertEquals(listOf(
+                79L,
+                98L
+            ), m.startingItems, "monkey starting items") },
             { assertEquals(
                 Operation("old", "19", "*"), m.fn, "monkey operation") },
             { assertEquals(23, m.divisor, "monkey divisor") },
@@ -54,8 +56,8 @@ class Tests {
         val monkeys = m.throwItems()
         // @formatter:off
         assertAll(
-            { assertEquals(Pair(3, 500), monkeys.first(), "monkey") },
-            { assertEquals(Pair(3, 620), monkeys.last(), "monkey") },
+            { assertEquals(Pair(3, 500L), monkeys.first(), "monkey") },
+            { assertEquals(Pair(3, 620L), monkeys.last(), "monkey") },
         )
         // @formatter:on
     }
@@ -94,25 +96,25 @@ class Tests {
         val ms = parseMonkeys(s)
         val ms1 = ms[0].throwItems()
         assertEquals(listOf(
-            Pair(3, 500),
-            Pair(3, 620)
+            Pair(3, 500L),
+            Pair(3, 620L)
         ), ms1, "monkeys")
         val ms2 = ms[1].throwItems()
         assertEquals(listOf(
-            Pair(0, 20),
-            Pair(0, 23),
-            Pair(0, 27),
-            Pair(0, 26),
+            Pair(0, 20L),
+            Pair(0, 23L),
+            Pair(0, 27L),
+            Pair(0, 26L),
         ), ms2, "monkeys")
         val ms3 = ms[2].throwItems()
         assertEquals(listOf(
-            Pair(1, 2080),
-            Pair(3, 1200),
-            Pair(3, 3136),
+            Pair(1, 2080L),
+            Pair(3, 1200L),
+            Pair(3, 3136L),
         ), ms3, "monkeys")
         val ms4 = ms[3].throwItems()
         assertEquals(listOf(
-            Pair(1, 25)
+            Pair(1, 25L)
         ), ms4, "monkeys")
     }
 
@@ -152,16 +154,16 @@ class Tests {
         // @formatter:off
         assertAll(
             { assertEquals(
-                listOf(20, 23, 27, 26),
+                listOf(20L, 23L, 27L, 26L),
                 ms.first().startingItems, "monkey items") },
             { assertEquals(
-                listOf(2080, 25, 167, 207, 401, 1046),
+                listOf(2080L, 25L, 167L, 207L, 401L, 1046L),
                 ms[1].startingItems, "monkey items") },
             { assertEquals(
-                emptyList<Int>(),
+                emptyList<Long>(),
                 ms[2].startingItems, "monkey items") },
             { assertEquals(
-                emptyList<Int>(),
+                emptyList<Long>(),
                 ms[3].startingItems, "monkey items") },
         )
         // @formatter:on
@@ -203,10 +205,10 @@ class Tests {
         // @formatter:off
         assertAll(
             { assertEquals(
-                listOf(10, 12, 14, 26, 34),
+                listOf(10L, 12L, 14L, 26L, 34L),
                 ms.first().startingItems, "monkey items") },
             { assertEquals(
-                listOf(245, 93, 53, 199, 115),
+                listOf(245L, 93L, 53L, 199L, 115L),
                 ms[1].startingItems, "monkey items") },
             { assertEquals(
                 emptyList<Int>(),
