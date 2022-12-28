@@ -279,16 +279,16 @@ class Tests {
         // @formatter:off
         assertAll(
             { assertEquals(
-                BigDecimal(101),
+                101L,
                 ms.first().inspectedItems, "monkey inspected items") },
             { assertEquals(
-                BigDecimal(95),
+                95L,
                 ms[1].inspectedItems, "monkey inspected items") },
             { assertEquals(
-                BigDecimal(7),
+                7L,
                 ms[2].inspectedItems, "monkey inspected items") },
             { assertEquals(
-                BigDecimal(105),
+                105L,
                 ms[3].inspectedItems, "monkey inspected items") },
         )
         // @formatter:on
@@ -299,7 +299,7 @@ class Tests {
         val input =
             File("requirements/day11/input.txt").readText()
         val mb = monkeyBusinessFor(input)
-        assertEquals(BigDecimal(50616), mb, "monkey business")
+        assertEquals(50616L, mb, "monkey business")
     }
 
     @Test
@@ -307,7 +307,7 @@ class Tests {
         val input =
             File("requirements/day11/sample.txt").readText()
         val mb = monkeyBusinessFor(input)
-        assertEquals(BigDecimal(10605), mb, "monkey business")
+        assertEquals(10605L, mb, "monkey business")
     }
 
 }

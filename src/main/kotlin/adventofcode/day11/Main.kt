@@ -11,7 +11,7 @@ fun main() {
     println(result)
 }
 
-fun monkeyBusinessFor(input: String): BigDecimal {
+fun monkeyBusinessFor(input: String): Long {
     val monkeys = parseMonkeys(input)
     repeat(20) { oneRoundOfThrowing(monkeys) }
     val sorted = monkeys.sortedByDescending { it.inspectedItems }
@@ -104,10 +104,10 @@ data class Monkey(
     val trueMonkeyId: Int,
     val falseMonkeyId: Int) {
 
-    var inspectedItems = BigDecimal.ZERO
+    var inspectedItems: Long = 0
 
     fun throwItems(): List<Pair<Int, BigDecimal>> {
-        inspectedItems = inspectedItems.plus(BigDecimal(startingItems.size))
+        inspectedItems += startingItems.size
         val monkeyToWorries = startingItems.map { determineMonkeyFor(it) }
         startingItems.clear()
         return monkeyToWorries
