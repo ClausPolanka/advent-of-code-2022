@@ -4,6 +4,7 @@ import adventofcode.day11.*
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import java.io.*
+import java.math.*
 
 class Tests {
     @Test
@@ -30,8 +31,8 @@ class Tests {
         assertAll(
             { assertEquals(0, m.id, "monkey id") },
             { assertEquals(listOf(
-                79L,
-                98L
+                BigDecimal(79),
+                BigDecimal(98)
             ), m.startingItems, "monkey starting items") },
             { assertEquals(
                 Operation("old", "19", "*"), m.fn, "monkey operation") },
@@ -56,8 +57,8 @@ class Tests {
         val monkeys = m.throwItems()
         // @formatter:off
         assertAll(
-            { assertEquals(Pair(3, 500L), monkeys.first(), "monkey") },
-            { assertEquals(Pair(3, 620L), monkeys.last(), "monkey") },
+            { assertEquals(Pair(3, BigDecimal(500)), monkeys.first(), "monkey") },
+            { assertEquals(Pair(3, BigDecimal(620)), monkeys.last(), "monkey") },
         )
         // @formatter:on
     }
@@ -96,25 +97,25 @@ class Tests {
         val ms = parseMonkeys(s)
         val ms1 = ms[0].throwItems()
         assertEquals(listOf(
-            Pair(3, 500L),
-            Pair(3, 620L)
+            Pair(3, BigDecimal(500)),
+            Pair(3, BigDecimal(620))
         ), ms1, "monkeys")
         val ms2 = ms[1].throwItems()
         assertEquals(listOf(
-            Pair(0, 20L),
-            Pair(0, 23L),
-            Pair(0, 27L),
-            Pair(0, 26L),
+            Pair(0, BigDecimal(20)),
+            Pair(0, BigDecimal(23)),
+            Pair(0, BigDecimal(27)),
+            Pair(0, BigDecimal(26)),
         ), ms2, "monkeys")
         val ms3 = ms[2].throwItems()
         assertEquals(listOf(
-            Pair(1, 2080L),
-            Pair(3, 1200L),
-            Pair(3, 3136L),
+            Pair(1, BigDecimal(2080)),
+            Pair(3, BigDecimal(1200)),
+            Pair(3, BigDecimal(3136)),
         ), ms3, "monkeys")
         val ms4 = ms[3].throwItems()
         assertEquals(listOf(
-            Pair(1, 25L)
+            Pair(1, BigDecimal(25))
         ), ms4, "monkeys")
     }
 
@@ -153,17 +154,25 @@ class Tests {
         oneRoundOfThrowing(ms)
         // @formatter:off
         assertAll(
-            { assertEquals(
-                listOf(20L, 23L, 27L, 26L),
+            { assertEquals(listOf(
+                    BigDecimal(20),
+                    BigDecimal(23),
+                    BigDecimal(27),
+                    BigDecimal(26)),
                 ms.first().startingItems, "monkey items") },
-            { assertEquals(
-                listOf(2080L, 25L, 167L, 207L, 401L, 1046L),
+            { assertEquals(listOf(
+                BigDecimal(2080),
+                BigDecimal(25),
+                BigDecimal(167),
+                BigDecimal(207),
+                BigDecimal(401),
+                BigDecimal(1046)),
                 ms[1].startingItems, "monkey items") },
             { assertEquals(
-                emptyList<Long>(),
+                emptyList<BigDecimal>(),
                 ms[2].startingItems, "monkey items") },
             { assertEquals(
-                emptyList<Long>(),
+                emptyList<BigDecimal>(),
                 ms[3].startingItems, "monkey items") },
         )
         // @formatter:on
@@ -205,16 +214,16 @@ class Tests {
         // @formatter:off
         assertAll(
             { assertEquals(
-                listOf(10L, 12L, 14L, 26L, 34L),
+                listOf(BigDecimal(10), BigDecimal(12), BigDecimal(14), BigDecimal(26), BigDecimal(34)),
                 ms.first().startingItems, "monkey items") },
             { assertEquals(
-                listOf(245L, 93L, 53L, 199L, 115L),
+                listOf(BigDecimal(245), BigDecimal(93), BigDecimal(53), BigDecimal(199), BigDecimal(115)),
                 ms[1].startingItems, "monkey items") },
             { assertEquals(
-                emptyList<Int>(),
+                emptyList<BigDecimal>(),
                 ms[2].startingItems, "monkey items") },
             { assertEquals(
-                emptyList<Int>(),
+                emptyList<BigDecimal>(),
                 ms[3].startingItems, "monkey items") },
         )
         // @formatter:on
