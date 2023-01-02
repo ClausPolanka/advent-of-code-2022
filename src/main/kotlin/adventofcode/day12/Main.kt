@@ -21,6 +21,6 @@ fun main() {
     val neighbours = grid.neighboursOf(1, 1)
 }
 
-private fun <E> List<E>.neighboursOf(x: Int, y: Int): List<Char> {
+fun <E> List<E>.neighboursOf(x: Int, y: Int): List<Char> {
     TODO("Not yet implemented")
 }
