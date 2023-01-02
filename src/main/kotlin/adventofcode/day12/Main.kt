@@ -24,31 +24,31 @@ fun String.toGrid(): List<List<Char>> = split(lineSeparator())
     .map { it.toList() }
 
 fun <E> List<List<E>>.neighboursOf(row: Int, column: Int): List<Cell> {
-    val leftNeighbour = Cell(
-        value = this[row][column - 1].toString(),
-        row = row,
-        column = column - 1,
-        name = "leftNeighbour")
-    val belowNeighbour = Cell(
+    var left: Cell? = null
+    if (column > 0)
+        left = Cell(
+            value = this[row][column - 1].toString(),
+            row = row,
+            column = column - 1,
+            name = "leftNeighbour")
+    val below = Cell(
         value = this[row + 1][column].toString(),
         row = row + 1,
         column = column,
         name = "belowNeighbour")
-    val rightNeighbour = Cell(
+    val right = Cell(
         value = this[row][column + 1].toString(),
         row = row,
         column = column + 1,
         name = "rightNeighbour")
-    val aboveNeighbour = Cell(
-        value = this[row - 1][column].toString(),
-        row = row - 1,
-        column = column,
-        name = "aboveNeighbour")
-    return listOf(
-        leftNeighbour,
-        belowNeighbour,
-        rightNeighbour,
-        aboveNeighbour)
+    var above: Cell? = null
+    if (row > 0)
+        above = Cell(
+            value = this[row - 1][column].toString(),
+            row = row - 1,
+            column = column,
+            name = "aboveNeighbour")
+    return listOfNotNull(left, below, right, above)
 }
 
 data class Cell(val value: String, val row: Int, val column: Int,
