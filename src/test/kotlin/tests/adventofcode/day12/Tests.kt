@@ -9,7 +9,7 @@ class Tests {
     fun `return cell's neighbours in a 3x3 grid`() {
         val grid: List<List<Char>> = """
             ada
-            aac
+            aSc
             aba
         """.trimIndent().toGrid()
         val neighbours = grid.neighboursOf(1, 1)
@@ -24,7 +24,7 @@ class Tests {
     @Test
     fun `return top left cell's neighbours in a 3x3 grid`() {
         val grid: List<List<Char>> = """
-            aca
+            Sca
             baa
             aaa
         """.trimIndent().toGrid()
@@ -32,6 +32,20 @@ class Tests {
         assertEquals(listOf(
             Cell(value = "b", row = 1, column = 0, name = "belowNeighbour"),
             Cell(value = "c", row = 0, column = 1, name = "rightNeighbour"),
+        ), neighbours, "neighbours")
+    }
+
+    @Test
+    fun `return bottom left cell's neighbours in a 3x3 grid`() {
+        val grid: List<List<Char>> = """
+            aaa
+            caa
+            Sba
+        """.trimIndent().toGrid()
+        val neighbours = grid.neighboursOf(2, 0)
+        assertEquals(listOf(
+            Cell(value = "b", row = 2, column = 1, name = "rightNeighbour"),
+            Cell(value = "c", row = 1, column = 0, name = "aboveNeighbour"),
         ), neighbours, "neighbours")
     }
 }

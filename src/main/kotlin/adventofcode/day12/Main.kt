@@ -31,11 +31,13 @@ fun <E> List<List<E>>.neighboursOf(row: Int, column: Int): List<Cell> {
             row = row,
             column = column - 1,
             name = "leftNeighbour")
-    val below = Cell(
-        value = this[row + 1][column].toString(),
-        row = row + 1,
-        column = column,
-        name = "belowNeighbour")
+    var below: Cell? = null
+    if (row < (this.size - 1))
+        below = Cell(
+            value = this[row + 1][column].toString(),
+            row = row + 1,
+            column = column,
+            name = "belowNeighbour")
     val right = Cell(
         value = this[row][column + 1].toString(),
         row = row,
