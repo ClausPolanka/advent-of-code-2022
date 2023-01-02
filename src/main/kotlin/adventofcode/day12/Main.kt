@@ -38,11 +38,13 @@ fun <E> List<List<E>>.neighboursOf(row: Int, column: Int): List<Cell> {
             row = row + 1,
             column = column,
             name = "belowNeighbour")
-    val right = Cell(
-        value = this[row][column + 1].toString(),
-        row = row,
-        column = column + 1,
-        name = "rightNeighbour")
+    var right: Cell? = null
+    if (column < (this.first().size - 1))
+        right = Cell(
+            value = this[row][column + 1].toString(),
+            row = row,
+            column = column + 1,
+            name = "rightNeighbour")
     var above: Cell? = null
     if (row > 0)
         above = Cell(
