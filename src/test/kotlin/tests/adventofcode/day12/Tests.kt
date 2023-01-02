@@ -20,7 +20,6 @@ class Tests {
             Cell(value = "d", row = 0, column = 1, name = "aboveNeighbour"),
         ), neighbours, "neighbours")
     }
-
     @Test
     fun `return top left cell's neighbours in a 3x3 grid`() {
         val grid: List<List<Char>> = """
@@ -75,6 +74,20 @@ class Tests {
             Cell(value = "b", row = 0, column = 1, name = "leftNeighbour"),
             Cell(value = "c", row = 1, column = 2, name = "belowNeighbour"),
         ), neighbours, "neighbours")
+    }
+
+    @Test
+    fun `return cell's higher or equally high neighbours in a 3x3 grid`() {
+        val grid: List<List<Char>> = """
+            ada
+            aSc
+            aba
+        """.trimIndent().toGrid()
+        val neighbours = grid.neighboursOf(1, 1)
+        assertEquals(listOf(
+            Cell(value = "a", row = 1, column = 0, name = "leftNeighbour"),
+            Cell(value = "b", row = 2, column = 1, name = "belowNeighbour"),
+        ), neighbours, "higher or equally high neighbours")
     }
 }
 

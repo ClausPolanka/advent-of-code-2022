@@ -55,5 +55,8 @@ fun <E> List<List<E>>.neighboursOf(row: Int, column: Int): List<Cell> {
     return listOfNotNull(left, below, right, above)
 }
 
-data class Cell(val value: String, val row: Int, val column: Int,
-                val name: String)
+data class Cell(
+    val value: String,
+    val row: Int,
+    val column: Int,
+    val name: String)
