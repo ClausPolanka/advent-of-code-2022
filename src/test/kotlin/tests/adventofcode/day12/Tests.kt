@@ -62,5 +62,19 @@ class Tests {
             Cell(value = "c", row = 1, column = 2, name = "aboveNeighbour"),
         ), neighbours, "neighbours")
     }
+
+    @Test
+    fun `return top right cell's neighbours in a 3x3 grid`() {
+        val grid: List<List<Char>> = """
+            abS
+            aac
+            aaa
+        """.trimIndent().toGrid()
+        val neighbours = grid.neighboursOf(0, 2)
+        assertEquals(listOf(
+            Cell(value = "b", row = 0, column = 1, name = "leftNeighbour"),
+            Cell(value = "c", row = 1, column = 2, name = "belowNeighbour"),
+        ), neighbours, "neighbours")
+    }
 }
 
