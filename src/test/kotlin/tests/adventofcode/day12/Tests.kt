@@ -104,4 +104,20 @@ class Tests {
         ), visited.drop(1), "visited cells")
     }
 
+    @Test
+    fun `depth first search from S to E with two possible paths and two steps`() {
+        val grid = """
+            zzz
+            zSb
+            zbE
+        """.toGrid()
+        val visited = grid.dfs(1, 1)
+        assertEquals(listOf(
+            Cell(value = "b", row = 2, column = 1, name = "belowNeighbour"),
+            Cell(value = "E", row = 2, column = 2, name = "rightNeighbour"),
+            Cell(value = "b", row = 1, column = 2, name = "rightNeighbour"),
+            Cell(value = "E", row = 2, column = 2, name = "belowNeighbour"),
+        ), visited.drop(1), "visited cells")
+    }
+
 }
