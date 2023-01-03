@@ -23,6 +23,21 @@ fun main() {
 fun String.toGrid(): List<List<Char>> = split(lineSeparator())
     .map { it.toList() }
 
+fun <E> List<List<E>>.nextPossibleStepsFrom(
+    row: Int,
+    column: Int
+): List<Cell> {
+    val cellValue = when (this[row][column].toString()) {
+        "S" -> "a"
+        else -> this[row][column].toString()
+    }
+    return neighboursOf(row, column)
+        .filter { neighbour ->
+            val diff = neighbour.value[0] - cellValue[0]
+            diff == 0 || diff == 1
+        }
+}
+
 fun <E> List<List<E>>.neighboursOf(row: Int, column: Int): List<Cell> {
     var left: Cell? = null
     if (column > 0)

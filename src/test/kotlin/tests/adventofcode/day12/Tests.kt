@@ -83,7 +83,7 @@ class Tests {
             aSc
             aba
         """.trimIndent().toGrid()
-        val neighbours = grid.neighboursOf(1, 1)
+        val neighbours = grid.nextPossibleStepsFrom(1, 1)
         assertEquals(listOf(
             Cell(value = "a", row = 1, column = 0, name = "leftNeighbour"),
             Cell(value = "b", row = 2, column = 1, name = "belowNeighbour"),
