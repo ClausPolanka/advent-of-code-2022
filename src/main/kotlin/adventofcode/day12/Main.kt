@@ -112,6 +112,5 @@ fun <E> List<List<E>>.dfs(row: Int, column: Int): ArrayList<Cell> {
         }
         stack.pop()
     }
-
     return visited
 }
