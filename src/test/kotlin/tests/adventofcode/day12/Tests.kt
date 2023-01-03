@@ -89,5 +89,19 @@ class Tests {
             Cell(value = "b", row = 2, column = 1, name = "belowNeighbour"),
         ), neighbours, "higher or equally high neighbours")
     }
-}
 
+    @Test
+    fun `depth first search from S to E with one possible path and two steps`() {
+        val grid = """
+            zzz
+            zSz
+            zbE
+        """.toGrid()
+        val visited = grid.dfs(1, 1)
+        assertEquals(listOf(
+            Cell(value = "b", row = 2, column = 1, name = "belowNeighbour"),
+            Cell(value = "E", row = 2, column = 2, name = "rightNeighbour"),
+        ), visited.drop(1), "visited cells")
+    }
+
+}

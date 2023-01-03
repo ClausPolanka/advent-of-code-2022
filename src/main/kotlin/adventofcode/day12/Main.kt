@@ -2,6 +2,7 @@ package adventofcode.day12
 
 import java.io.*
 import java.lang.System.lineSeparator
+import java.util.*
 
 fun main() {
     val input =
@@ -35,7 +36,7 @@ fun <E> List<List<E>>.nextPossibleStepsFrom(
     return neighboursOf(row, column)
         .filter { neighbour ->
             val diff = neighbour.value[0] - cellValue[0]
-            diff == 0 || diff == 1
+            diff == 0 || diff == 1 || (neighbour.value == "E")
         }
 }
 
@@ -76,3 +77,41 @@ data class Cell(
     val row: Int,
     val column: Int,
     val name: String)
+
+fun <E> List<List<E>>.dfs(row: Int, column: Int): ArrayList<Cell> {
+    // Path through the graph
+    val stack = Stack<Cell>()
+
+    // Stores the order in which the cells were visited
+    val visited = arrayListOf<Cell>()
+
+    // Remembers which cells were already pushed so that you don’t visit the
+    // same cell twice. It's a MutableSet to ensure fast O(1) lookup.
+    val pushed = mutableSetOf<Cell>()
+
+    val startingCell = Cell(this[row][column].toString(), row, column, "S")
+    stack.push(startingCell)
+    pushed.add(startingCell)
+    visited.add(startingCell)
+
+    outer@ while (true) {
+        if (stack.isEmpty()) break
+        val cell = stack.peek()!!
+        val neighbors = nextPossibleStepsFrom(cell.row, cell.column)
+        if (neighbors.isEmpty()) {
+            stack.pop()
+            continue
+        }
+        for (element in neighbors) {
+            if (element !in pushed) {
+                stack.push(element)
+                pushed.add(element)
+                visited.add(element)
+                continue@outer
+            }
+        }
+        stack.pop()
+    }
+
+    return visited
+}
