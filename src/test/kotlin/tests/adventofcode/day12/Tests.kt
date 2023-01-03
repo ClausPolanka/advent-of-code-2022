@@ -7,11 +7,11 @@ import org.junit.jupiter.api.Assertions.assertEquals
 class Tests {
     @Test
     fun `return cell's neighbours in a 3x3 grid`() {
-        val grid: List<List<Char>> = """
+        val grid = """
             ada
             aSc
             aba
-        """.trimIndent().toGrid()
+        """.toGrid()
         val neighbours = grid.neighboursOf(1, 1)
         assertEquals(listOf(
             Cell(value = "a", row = 1, column = 0, name = "leftNeighbour"),
@@ -22,11 +22,11 @@ class Tests {
     }
     @Test
     fun `return top left cell's neighbours in a 3x3 grid`() {
-        val grid: List<List<Char>> = """
+        val grid = """
             Sca
             baa
             aaa
-        """.trimIndent().toGrid()
+        """.toGrid()
         val neighbours = grid.neighboursOf(0, 0)
         assertEquals(listOf(
             Cell(value = "b", row = 1, column = 0, name = "belowNeighbour"),
@@ -36,11 +36,11 @@ class Tests {
 
     @Test
     fun `return bottom left cell's neighbours in a 3x3 grid`() {
-        val grid: List<List<Char>> = """
+        val grid = """
             aaa
             caa
             Sba
-        """.trimIndent().toGrid()
+        """.toGrid()
         val neighbours = grid.neighboursOf(2, 0)
         assertEquals(listOf(
             Cell(value = "b", row = 2, column = 1, name = "rightNeighbour"),
@@ -50,11 +50,11 @@ class Tests {
 
     @Test
     fun `return bottom right cell's neighbours in a 3x3 grid`() {
-        val grid: List<List<Char>> = """
+        val grid = """
             aaa
             cac
             abS
-        """.trimIndent().toGrid()
+        """.toGrid()
         val neighbours = grid.neighboursOf(2, 2)
         assertEquals(listOf(
             Cell(value = "b", row = 2, column = 1, name = "leftNeighbour"),
@@ -64,11 +64,11 @@ class Tests {
 
     @Test
     fun `return top right cell's neighbours in a 3x3 grid`() {
-        val grid: List<List<Char>> = """
+        val grid = """
             abS
             aac
             aaa
-        """.trimIndent().toGrid()
+        """.toGrid()
         val neighbours = grid.neighboursOf(0, 2)
         assertEquals(listOf(
             Cell(value = "b", row = 0, column = 1, name = "leftNeighbour"),
@@ -78,11 +78,11 @@ class Tests {
 
     @Test
     fun `return cell's higher or equally high neighbours in a 3x3 grid`() {
-        val grid: List<List<Char>> = """
+        val grid = """
             ada
             aSc
             aba
-        """.trimIndent().toGrid()
+        """.toGrid()
         val neighbours = grid.nextPossibleStepsFrom(1, 1)
         assertEquals(listOf(
             Cell(value = "a", row = 1, column = 0, name = "leftNeighbour"),

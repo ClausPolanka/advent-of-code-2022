@@ -20,7 +20,8 @@ fun main() {
     val neighbours = grid.neighboursOf(1, 1)
 }
 
-fun String.toGrid(): List<List<Char>> = split(lineSeparator())
+fun String.toGrid(): List<List<Char>> = trimIndent()
+    .split(lineSeparator())
     .map { it.toList() }
 
 fun <E> List<List<E>>.nextPossibleStepsFrom(
