@@ -1,8 +1,11 @@
 package tests.adventofcode.day12
 
 import adventofcode.day12.*
+import adventofcode.day12.djleeds.*
+import adventofcode.day12.djleeds.PlotType.START
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
+import java.lang.System.lineSeparator
 
 class Tests {
     @Test
@@ -120,4 +123,15 @@ class Tests {
         ), visited.drop(1), "visited cells")
     }
 
+    @Test
+    fun `shortest distance between S and E`() {
+        val shortestDistance = Terrain.parse("""
+            Sbb
+            bbb
+            zzE
+        """.trimIndent()
+            .split(lineSeparator()), eHeight = 'c' - 'a')
+            .shortestDistance { it.type == START }
+        assertEquals(4, shortestDistance)
+    }
 }

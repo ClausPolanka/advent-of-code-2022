@@ -25,10 +25,10 @@ data class Plot(
     val type: PlotType
 ) {
     companion object {
-        fun from(coordinates: Coordinates, char: Char) = Plot(
+        fun from(coordinates: Coordinates, char: Char, eHeight: Int) = Plot(
             coordinates,
             when (char) {
-                'S' -> 0; 'E' -> 'z' - 'a'; else -> char - 'a'
+                'S' -> 0; 'E' -> eHeight; else -> char - 'a'
             },
             PlotType.from(char)
         )
@@ -81,10 +81,10 @@ class Terrain(private val plots: List<List<Plot>>) {
     }
 
     companion object {
-        fun parse(input: List<String>) =
+        fun parse(input: List<String>, eHeight: Int = 'z' - 'a') =
             input.mapIndexed { y, row ->
                 row.mapIndexed { x, char ->
-                    Plot.from(Coordinates(x, y), char)
+                    Plot.from(Coordinates(x, y), char, eHeight)
                 }
             }.let(::Terrain)
     }
